@@ -1,6 +1,3 @@
 <template>
-
-    <Login />
-
-
+    <forgot></forgot>
 </template>
