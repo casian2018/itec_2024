@@ -1,15 +1,5 @@
 <template>
-
-    <!-- tailwind.config.js -->
-    module.exports = {
-    plugins: [require('@tailwindcss/forms'),]
-    };
-
-
-
-    <!-- component -->
     <div>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
         <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
             <div class="fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden"></div>
@@ -621,3 +611,5 @@
     </div>
 
 </template>
+
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>

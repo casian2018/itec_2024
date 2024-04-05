@@ -1,6 +1,6 @@
 <template>
 <section
-    class="relative overflow-hidden bg-gradient-to-b from-blue-50 via-transparent to-transparent pb-12 pt-20 sm:pb-16 sm:pt-32 lg:pb-24 xl:pb-32 xl:pt-40">
+    class="relative overflow-hidden bg-gradient-to-b from-blue-50 via-transparent to-transparent pb-12 pt-20 sm:pb-16 sm:pt-32 lg:pb-24 xl:pb-32 xl:pt-40  flex items-center justify-center min-h-screen">
     <div class="relative z-10">
         <div
             class="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
@@ -39,9 +39,6 @@
                     </svg>
                 </a>
             </div>
-        </div>
-        <div class="relative mx-auto mt-10 max-w-lg">
-            <img class="w-full rounded-2xl border border-gray-100 shadow" src="https://images.unsplash.com/photo-1587502536575-6dfba0a6e017" alt="">
         </div>
     </div>
 </section>
