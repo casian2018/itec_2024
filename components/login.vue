@@ -8,7 +8,7 @@
     <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
     <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
       <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" class="w-8 h-8"></span>
-      <span @submit.prevent="GoogleAuthProvider">Login with Google</span>
+      <span @click="googleSignIn">Login with Google</span>
     </button>
     <div class="relative mt-10 h-px bg-gray-300">
       <div class="absolute left-0 top-0 flex justify-center w-full -mt-2">
@@ -63,13 +63,13 @@
       </form>
     </div>
     <div class="flex justify-center items-center mt-6">
-      <a href="#" target="_blank" class="inline-flex items-center font-bold text-blue-800 hover:text-blue-700 text-xs text-center">
+      <a href="/register" target="_blank" class="inline-flex items-center font-bold text-blue-800 hover:text-blue-700 text-xs text-center">
         <span>
           <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
           </svg>
         </span>
-        <span class="ml-2">You don't have an account?</span>
+        <span class="ml-2" >You don't have an account?</span>
       </a>
     </div>
   </div>
@@ -79,9 +79,10 @@
 
 
 
+
 <script type="module">
   // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+  import { initializeApp} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -96,46 +97,23 @@
     measurementId: "G-V38WHRYJ7R"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 
-  import { GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
-const provider = new GoogleAuthProvider();
-
-
+  // Initialize Firebase
+  
 
   // Import Firebase Authentication
 import {
     getAuth,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
   } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
+  import {signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
   // Get a reference to the Firebase Authentication service
   const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-
-  import {signInWithPopup} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-
-signInWithPopup(auth, provider)
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
 
   export default {
     data() {
@@ -154,7 +132,24 @@ signInWithPopup(auth, provider)
           // Handle the error
           console.error(error)
         } 
-      }
-    }
+      },
+
+      async googleSignIn() {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            this.$router.push('dash')
+        } catch (error) {
+            console.error(error);
+        }
+    }  }
   }
+
+  
+  
+
+
+  
 </script>
