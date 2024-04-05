@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
 
 <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-  <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
-    <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
+  <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-5 rounded-md w-full max-w-md">
+    <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Register Your Account</div>
     <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
       <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" class="w-8 h-8"></span>
       <span @click="googleSignIn">Register with Google</span>
@@ -17,6 +17,18 @@
     </div>
     <div class="mt-10">
       <form @submit.prevent="register">
+        <div class="flex flex-col mb-6">
+          <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Username:</label>
+          <div class="relative">
+            <div class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+              <img src="https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png" class="h-6 w-6 opacity-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                
+            </img>
+            </div>
+
+            <input id="name" type="name" name="name" class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Username" v-model="name"/>
+          </div>
+        </div>
         <div class="flex flex-col mb-6">
           <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail Address:</label>
           <div class="relative">
@@ -121,24 +133,43 @@ import {
   const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-store.js";
+
+const db = getFirestore(app);
+
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-store.js";
+
+
+
+// Get a reference to the user document
+const userDoc = doc(db, "users", auth.currentUser.uid);
+
+// Set the user's name in the Firestore document
+await setDoc(userDoc, {
+    name: this.name
+});
 
   export default {
     data() {
       return {
         email: '',
-        password: ''
+        password: '',
+        name: ''
       }
     },
     methods: {
         async register() {
         try {
-          await createUserWithEmailAndPassword(auth, this.email, this.password)
+          await createUserWithEmailAndPassword(auth, this.email, this.password, this.name)
           // Redirect to the dashboard page or perform any other action after successful registration
           this.$router.push('dash')
         } catch (error) {
           // Handle the error
           console.error(error)
         }
+        await setDoc(userDoc, {
+    name: this.name
+});
       },
 
       async googleSignIn() {
