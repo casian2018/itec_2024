@@ -1,7 +1,4 @@
 <template>
-    <Nav />
-    <Hero />
-    <About />
-    <Testimonials />
-    <Footer />
+<Nav />
+<Dash />
 </template>
