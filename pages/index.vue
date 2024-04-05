@@ -1,4 +1,4 @@
 <template>
 <Nav />
-<Dash />
+<Dashboard />
 </template>
