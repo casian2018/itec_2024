@@ -91,8 +91,8 @@
             const errorMessage = error.message;
             //..
         }
-    },
-},
+    }
+}
   }
 
   
