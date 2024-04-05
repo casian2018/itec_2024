@@ -1,3 +1,5 @@
 <template>
-<Dashboard />
+
+    <Dashboard />
+
 </template>
