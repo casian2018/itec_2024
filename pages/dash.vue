@@ -1,5 +1,5 @@
 <template>
 
-    <dash />
+    <Dash />
 
 </template>
