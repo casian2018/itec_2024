@@ -97,11 +97,10 @@
                 <p class="endpoint-url">{{ endpoint.url }}</p>
                 <p class="endpoint-status">
                   Status: {{ endpoint.status }}
-                  <span class="ml-2 text-xs font-medium rounded-full px-1" :class="`bg-${endpoint.status}-500`">{{ endpoint.status }}</span>
+                  <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
                 <div class="w-full rounded">
-                  <div :class="`bg-${color}-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
-                    {{ endpoint.statusWidth }}%
+                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
                   </div>
                 </div>
               </div>
@@ -122,12 +121,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/fireba
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
-    authDomain: "itec2024.firebaseapp.com",
-    projectId: "itec2024",
-    storageBucket: "itec2024.appspot.com",
-    messagingSenderId: "654897749335",
-    appId: "1:654897749335:web:86ad18e39b11b730a1b212",
-    measurementId: "G-V38WHRYJ7R"
+  authDomain: "itec2024.firebaseapp.com",
+  projectId: "itec2024",
+  storageBucket: "itec2024.appspot.com",
+  messagingSenderId: "654897749335",
+  appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+  measurementId: "G-V38WHRYJ7R"
 };
 
 const states = {
@@ -155,6 +154,8 @@ export default {
         endpointsSnapshot.forEach((doc) => {
           const endpointData = doc.data();
           const recentCalls = endpointData.callHistory ? endpointData.callHistory.slice(-10) : [];
+          console.log("Recent Calls:", recentCalls);
+
           const status = calculateStatus(recentCalls);
 
           updatedEndpoints.push({
@@ -213,6 +214,7 @@ export default {
     setInterval(fetchEndpoints, 1000);
   },
 };
+
 </script>
 
 <style scoped>
