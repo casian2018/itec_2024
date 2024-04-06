@@ -73,11 +73,13 @@
               <p>No endpoint data available.</p>
             </main>
           </div>
-          <!-- Add input field for adding new links -->
-          <button @click="addNewEndpoint" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px- ml-64 rounded  mb-4 w-36">
+          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-36 mt-8 ">
               Add New Link
             </button>
-            <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12">
+          <!-- Add input field for adding new links -->
+          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4">
+           
+            
             
      
           
