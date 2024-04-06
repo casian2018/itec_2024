@@ -1,10 +1,13 @@
+<!-- Updated template section -->
 <template>
   <!-- component -->
   <div x-data="setup()" :class="{ 'dark': isDark }">
-    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
+    <div
+      class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
       <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
-        <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
+        <div
+          class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
           <span class="hidden md:block">{{ name }}</span>
         </div>
         <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right">
@@ -12,6 +15,7 @@
         </div>
       </div>
       <!-- ./Header -->
+      <!-- Sidebar -->
       <!-- Sidebar -->
       <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -38,23 +42,19 @@
                 <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span>
               </NuxtLink>
             </li>
-           
-            
-            
-           
           
             <!-- Other sidebar items -->
           </ul>
         </div>
       </div>
       <!-- ./Sidebar -->
-      <div class="h-full ml-14 mb-10 md:ml-64">
+      <div class="h-full ml-14 mb-10 md:ml-64 text-black">
         <!-- Social Traffic -->
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words w-full ">
+        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
           <div class="rounded-t mb-0 px-0 border-0 ">
             <div class="flex flex-wrap items-center px-4 py-2 "></div>
           </div>
-          <div class="dashboard ">
+          <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
                 <p class="endpoint-url p-1">{{ endpoint.url }}</p>
@@ -63,7 +63,8 @@
                   <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
                 <div class="w-full rounded">
-                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
+                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`"
+                    :style="{ width: getStatusWidth(endpoint.status) }">
                   </div>
                 </div>
               </div>
@@ -72,6 +73,13 @@
               <p>No endpoint data available.</p>
             </main>
           </div>
+          <!-- Add input field for adding new links -->
+          <div class="flex flex-col my-auto items-center bgimg bg-cover mx-12">
+            <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full m-4">
+            <button @click="addNewEndpoint" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 ml-2 rounded mr-4 mb-8">
+              Add New Link
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +87,7 @@
 </template>
 
 <script>
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
 
 const firebaseConfig = {
@@ -92,6 +100,8 @@ const firebaseConfig = {
     measurementId: "G-V38WHRYJ7R"
 };
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Initialize Firestore
 const states = {
   STABLE: "Stable",
   UNSTABLE: "Unstable",
@@ -102,77 +112,68 @@ export default {
   data() {
     return {
       endpointuri: [],
+      newEndpointUrl: "",
       name: "",
     };
   },
   async mounted() {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    await this.fetchData(); // Fetch initial data
+    await this.getUser(); // Fetch user data
 
-    const fetchEndpoints = async () => {
+    // Refresh data every 10 seconds
+    setInterval(async () => {
+      await this.fetchData();
+    }, 10000);
+  },
+  methods: {
+    async fetchData() {
       try {
         const endpointsSnapshot = await getDocs(collection(db, "endpointuri"));
         const updatedEndpoints = [];
-
         endpointsSnapshot.forEach((doc) => {
-          const endpointData = doc.data();
-          const recentCalls = endpointData.callHistory ? endpointData.callHistory.slice(-10) : [];
-          const status = calculateStatus(recentCalls);
-
           updatedEndpoints.push({
             id: doc.id,
-            ...endpointData,
-            status,
-            statusWidth: calculateStatusWidth(status),
+            ...doc.data(),
           });
         });
-
         this.endpointuri = updatedEndpoints;
       } catch (error) {
-        console.error("Error fetching endpoints:", error);
+        console.error("Error fetching data:", error);
       }
-    };
-
-    const calculateStatus = (recentCalls) => {
-      if (recentCalls.every((call) => call.statusCode === 200 || call.statusCode === 302)) {
-        return states.STABLE;
-      } else if (recentCalls.some((call) => call.statusCode !== 200 && call.statusCode !== 302)) {
-        return states.UNSTABLE;
-      } else {
-        return states.DOWN;
+    },
+    async addNewEndpoint() {
+      try {
+        const url = this.newEndpointUrl.trim();
+        if (url) {
+          await addDoc(collection(db, "endpointuri"), { url, status: "" });
+          await this.fetchData(); // Fetch updated data
+          this.newEndpointUrl = ""; // Clear input field
+        }
+      } catch (error) {
+        console.error("Error adding new endpoint:", error);
       }
-    };
-
-    const calculateStatusWidth = (status) => {
-      switch (status) {
-        case states.STABLE:
-          return 100;
-        case states.UNSTABLE:
-          return 50;
-        case states.DOWN:
-          return 0;
-      }
-    };
-
-    const getUser = async () => {
+    },
+    async getUser() {
       try {
         const userData = await getDocs(collection(db, "users"));
-
-        // Get the first user document
         const userDoc = userData.docs[0];
-
-        // Set the name input field value to the user's name
         this.name = userDoc.data().Name;
       } catch (error) {
-        console.error("Error fetching endpoints:", error);
+        console.error("Error fetching user data:", error);
       }
-    };
-
-    // Initial fetch
-    getUser();
-
-    // Refresh endpoint data every second
-    setInterval(fetchEndpoints, 1000);
+    },
+    getStatusWidth(status) {
+      switch (status) {
+        case states.STABLE:
+          return '100%'; // If status is stable, width is 100%
+        case states.UNSTABLE:
+          return '50%'; // If status is unstable, width is 50%
+        case states.DOWN:
+          return '30%'; // If status is down, width is 30%
+        default:
+          return '0%'; // Default width is 0%
+      }
+    },
   },
 };
 </script>
@@ -181,7 +182,7 @@ export default {
 .dashboard {
   padding: 20px;
   color: black;
-} 
+}
 .navbar {
   background-color: #2196F3;
   color: #fff;
