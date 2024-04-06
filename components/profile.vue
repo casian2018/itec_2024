@@ -123,7 +123,7 @@
         <span class="text-gray-200 pt-8 block opacity-70 pb-4">Personal information</span>
          <label for="name" class="font-semibold text-gray-300 block pb-1">Name</label>
          <div class="flex">
-           <input disabled id="username" class="border-1  rounded-r px-4 py-2 w-full" type="text" value="Jane Name" />
+           <input disabled id="username" class="border-1  rounded-r px-4 py-2 w-full" type="text" v-model="name" />
          </div>
        </div>
        <div class="pb-4">
@@ -198,3 +198,8 @@
   
     
   </template>
+
+
+<script type="module">
+
+</script>

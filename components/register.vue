@@ -133,6 +133,10 @@ import {
   const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"; 
+const db = getFirestore(app);
+
 
 
 
@@ -149,12 +153,12 @@ const provider = new GoogleAuthProvider();
           try {
       await createUserWithEmailAndPassword(auth, this.email, this.password)
       // Redirect to the dashboard page or perform any other action after successful registration
-      this.$router.push('main')
+      this.$router.push('dash')
 
       // Write the name to Firestore
-      await setDoc(doc(db, "users", this.name), {
-        Name : this.name
-      });
+      const docRef = await addDoc(collection(db, "users"), {
+    Name : this.name
+  });
     } catch (error) {
       // Handle the error
       console.error(error)
