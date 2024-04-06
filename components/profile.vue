@@ -121,19 +121,21 @@
      <div class="rounded   p-6">
        <div class="pb-6">
         <span class="text-gray-200 pt-8 block opacity-70 pb-4">Personal information</span>
+    
          <label for="name" class="font-semibold text-gray-300 block pb-1">Name</label>
          <div class="flex">
-           <input disabled id="username" class="border-1  rounded-r px-4 py-2 w-full" type="text" v-model="name" />
+           <input id="name" class="border-1  rounded-r px-4 py-2 w-full" type="name" @input="$emit('update:name', $event.target.value)" />
          </div>
        </div>
        <div class="pb-4">
          <label for="about" class="font-semibold text-gray-300 block pb-1">Email</label>
-         <input disabled id="email" class="border-1  rounded-r px-4 py-2 w-full" type="email" value="example@example.com" />
+         <input id="email" class="border-1  rounded-r px-4 py-2 w-full" type="email" value="example@example.com" />
          
          
        </div>
        <div class="pt-4 mr-2"></div>
-       
+
+      
      </div>
     
     
@@ -201,5 +203,30 @@
 
 
 <script type="module">
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { ref } from 'vue';
 
+export default {
+  name: this.name,
+  props: {
+    name: String
+  },
+  data() {
+    return {
+      userData: null
+    };
+  },
+  async created() {
+    const app = ref();
+    // Assuming you have already initialized Firebase app elsewhere
+    const db = getFirestore(app.value);
+    const docRef = doc(db, "users", this.name);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      this.userData = docSnap.data();
+    } else {
+      console.log("No such document!");
+    }
+  }
+};
 </script>
