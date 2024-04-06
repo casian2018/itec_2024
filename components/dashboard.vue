@@ -56,17 +56,21 @@
           </div>
           <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
-              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
+              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-4 mt-6">
                 <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                 <p class="endpoint-status">
                   Status: {{ endpoint.status }}
                   <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
-                <div class="w-full rounded">
-                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center  p-1  mt-3  leading-none rounded`"
+                <div class="rounded ">
+                  <button @click="removeEndpoint(endpoint.id)" class="bg-red-500 hover:bg-red-600 text-white font-medium rounded ml-2 mt-2 w-4">
+                  X
+                </button>
+                  <div class="bg-blue-500 text-xs font-medium text-blue-100 text-center  p-1  mt-3  leading-none rounded"
                     :style="{ width: getStatusWidth(endpoint.status) }">
                   </div>
                 </div>
+                
               </div>
             </main>
             <main v-else>
@@ -90,7 +94,7 @@
 </template>
 
 <script>
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
 
 const firebaseConfig = {
@@ -105,6 +109,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Initialize Firestore
+
 const states = {
   STABLE: "Stable",
   UNSTABLE: "Unstable",
@@ -121,11 +126,8 @@ export default {
   },
   async mounted() {
     await this.fetchData(); // Fetch initial data
-    await this.getUser(); // Fetch user data
-
-    // Refresh data every 10 seconds
     setInterval(async () => {
-      await this.fetchData();
+      await this.fetchData(); // Fetch data every 10 seconds
     }, 10000);
   },
   methods: {
@@ -156,13 +158,12 @@ export default {
         console.error("Error adding new endpoint:", error);
       }
     },
-    async getUser() {
+    async removeEndpoint(endpointId) {
       try {
-        const userData = await getDocs(collection(db, "users"));
-        const userDoc = userData.docs[0];
-        this.name = userDoc.data().Name;
+        await deleteDoc(doc(db, "endpointuri", endpointId));
+        this.endpointuri = this.endpointuri.filter(endpoint => endpoint.id !== endpointId);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error removing endpoint:", error);
       }
     },
     getStatusWidth(status) {
@@ -179,6 +180,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped>

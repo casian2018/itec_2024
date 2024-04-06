@@ -1,8 +1,8 @@
 <template>
-<nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
+<nav class="fixed bg-white w-full flex justify-between items-center mx-auto px-8 h-20 ">
     <!-- logo -->
     <div class="inline-flex">
-       <img src="/public/logo.png" class="w-44">
+       <a href="/"><img src="/public/logo.png" class="w-44"></a>
     </div>
 
     <!-- end logo -->
@@ -19,7 +19,7 @@
 
         <div class="block">
             <div class="inline relative">
-                <div class="flex items-center relative cursor-pointer whitespace-nowrap ">About</div>
+                <NuxtLink to="contact">Contact</NuxtLink>
             </div>
         </div>
       </div>
