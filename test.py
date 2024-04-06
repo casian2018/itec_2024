@@ -8,28 +8,28 @@ firebase_admin.initialize_app(cred)
 # Obține o referință la baza de date Firestore
 db = firestore.client()
 
-# Definește datele pentru noul document
-new_endpoint_data = {
-    "url": "https://itec.ro",
-    "status": "Stable",
-    "bugs": [
-        {
-            "title": "Bug 1",
-            "description": "Descrierea bug-ului 1"
-        },
-        {
-            "title": "Bug 2",
-            "description": "Descrierea bug-ului 2"
-        }
-        # Adaugă mai multe bug-uri după nevoie
-    ]
+# Definește datele pentru un nou document
+new_bug_data = {
+    "title": "Bug 1",
+    "description": "Descrierea bug-ului 1"
 }
 
 try:
-    # Adaugă un nou document în colecția /endpointuri
-    new_endpoint_ref = db.collection("endpointuri").add(new_endpoint_data)
-    # Obține id-ul documentului din tuplul returnat
-    document_id = new_endpoint_ref[1].id
-    print("Document created with ID:", document_id)
-except firestore.FirestoreError as e:
+    # Interoghează colecția "/endpointuri" pentru a obține primul document
+    endpoint_query = db.collection("endpointuri").limit(1)
+    endpoint_docs = endpoint_query.stream()
+
+    # Verifică dacă există vreun document în colecție
+    for endpoint_doc in endpoint_docs:
+        # Obține URL-ul din documentul endpoint
+        endpoint_url = endpoint_doc.to_dict()["url"]
+        # Adaugă URL-ul în datele pentru noul bug
+        new_bug_data["project"] = endpoint_url
+        # Adaugă un nou document în colecția "bugs" cu datele actualizate
+        new_bug_ref = db.collection("bugs").add(new_bug_data)
+        print("Document created with ID:", new_bug_ref[1])
+        break  # Ieșiți din bucla for după ce ați găsit primul document
+    else:
+        print("Nu s-au găsit documente în colecția '/endpointuri'")
+except Exception as e:
     print("Error creating document:", e)

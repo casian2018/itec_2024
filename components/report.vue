@@ -1,0 +1,202 @@
+<template>
+    <!-- Component -->
+    <div x-data="setup()" :class="{ 'dark': isDark }">
+      <!-- Header -->
+      <div class="fixed w-full flex items-center justify-between h-14 text-white z-[99]">
+        <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none]">
+          <span class="hidden md:block">{{ name }}</span>
+        </div>
+      </div>
+      <!-- ./Header -->
+      <div class="h-full ml-14 mb-10 md:ml-64 text-black">
+        <!-- Endpoint and Bug List -->
+        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
+          <div class="rounded-t mb-0 px-0 border-0 ">
+            <div class="flex flex-wrap items-center px-4 py-2 "></div>
+          </div>
+          <div class="dashboard mx-4">
+            <main v-if="endpointuri && endpointuri.length">
+              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
+                <div class="col-span-3">
+                  <p class="endpoint-url p-1">{{ endpoint.url }}</p>
+                  <p class="endpoint-status">
+                    Status: {{ endpoint.status }}
+                    <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
+                  </p>
+                  <div class="w-full rounded">
+                    <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`"
+                      :style="{ width: getStatusWidth(endpoint.status) }">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-3 mt-2">
+                  <table class="w-full table-auto">
+                    <thead>
+                      <tr>
+                        <th class="px-4 py-2">Bug Title</th>
+                        <th class="px-4 py-2">Bug Description</th>
+                        <th class="px-4 py-2">Project</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(bug, index) in filteredBugs(endpoint.url)" :key="index" class="bg-gray-100 border-b">
+                        <td class="border px-4 py-2">{{ bug.title }}</td>
+                        <td class="border px-4 py-2">{{ bug.description }}</td>
+                        <td class="border px-4 py-2">{{ bug.project }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </main>
+            <main v-else>
+              <p>No endpoint data available.</p>
+            </main>
+          </div>
+          <!-- Add input field for adding new bugs -->
+          <div class="flex flex-col mt-4">
+            <label for="project" class="text-sm font-medium text-gray-900">Select Project:</label>
+            <select v-model="selectedProject" id="project" name="project" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+              <option value="" disabled>Select a project</option>
+              <option v-for="project in projects" :key="project" :value="project">{{ project }}</option>
+            </select>
+          </div>
+          <button @click="addNewBug" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 mt-4 rounded w-full">
+            Add New Bug
+          </button>
+          <input v-model="newBugTitle" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Title">
+          <input v-model="newBugDescription" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Description">
+        </div>
+      </div>
+      <!-- Bug Table -->
+      <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+        
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
+    authDomain: "itec2024.firebaseapp.com",
+    projectId: "itec2024",
+    storageBucket: "itec2024.appspot.com",
+    messagingSenderId: "654897749335",
+    appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+    measurementId: "G-V38WHRYJ7R"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app); // Initialize Firestore
+  const states = {
+    STABLE: "Stable",
+    UNSTABLE: "Unstable",
+    DOWN: "Down",
+  };
+  
+  export default {
+    data() {
+      return {
+        endpointuri: [],
+        newBugTitle: "",
+        newBugDescription: "",
+        name: "",
+        projects: [], // Array to store project URLs
+        selectedProject: "", // Variable to store the selected project URL
+        bugs: [], // Array to store bugs
+      };
+    },
+    async mounted() {
+      await this.fetchData(); // Fetch initial data
+      await this.getUser(); // Fetch user data
+  
+      // Refresh data every 10 seconds
+      setInterval(async () => {
+        await this.fetchData();
+      }, 10000);
+    },
+    methods: {
+      async fetchData() {
+        try {
+          const endpointsSnapshot = await getDocs(collection(db, "endpointuri"));
+          const updatedEndpoints = [];
+          const projectURLs = []; // Temporary array to store project URLs
+          endpointsSnapshot.forEach((doc) => {
+            updatedEndpoints.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+            projectURLs.push(doc.data().url); // Push project URL to temporary array
+          });
+          this.endpointuri = updatedEndpoints;
+          this.projects = projectURLs; // Assign project URLs to the data property
+  
+          // Fetch bugs
+          const bugsSnapshot = await getDocs(collection(db, "bugs"));
+          const bugs = [];
+          bugsSnapshot.forEach((doc) => {
+            bugs.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          this.bugs = bugs; // Assign bugs to the data property
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      },
+      async addNewBug() {
+        try {
+          const title = this.newBugTitle.trim();
+          const description = this.newBugDescription.trim();
+          if (title && description && this.selectedProject) {
+            // Add the new bug to Firestore
+            await addDoc(collection(db, "bugs"), { title, description, project: this.selectedProject });
+  
+            // Clear input fields
+            this.newBugTitle = "";
+            this.newBugDescription = "";
+          }
+        } catch (error) {
+          console.error("Error adding new bug:", error);
+        }
+      },
+      async getUser() {
+        try {
+          const userData = await getDocs(collection(db, "users"));
+          const userDoc = userData.docs[0];
+          this.name = userDoc.data().Name;
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      },
+      getStatusWidth(status) {
+        switch (status) {
+          case states.STABLE:
+            return '100%'; // If status is stable, width is 100%
+          case states.UNSTABLE:
+            return '50%'; // If status is unstable, width is 50%
+          case states.DOWN:
+            return '30%'; // If status is down, width is 30%
+          default:
+            return '0%'; // Default width is 0%
+        }
+      },
+      filteredBugs(endpointURL) {
+        if (endpointURL) {
+          return this.bugs.filter(bug => bug.project === endpointURL);
+        } else {
+          return this.bugs;
+        }
+      }
+    },
+  };
+  </script>
+  
+  <style scoped>
+  /* Styles here */
+  </style>
+  
