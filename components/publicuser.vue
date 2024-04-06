@@ -112,8 +112,7 @@
       };
     },
     async mounted() {
-      await this.fetchData(); // Fetch initial data
-      await this.getUser(); // Fetch user data
+      await this.fetchData(); // Fetch initial data // Fetch user data
   
       // Refresh data every 10 seconds
       setInterval(async () => {
