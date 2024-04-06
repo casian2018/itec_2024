@@ -6,9 +6,9 @@
   
         <!-- Header -->
         <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
-          <div class="flex items-center justify-start md:justify-center pr-32 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
-            <img class="w-7 h-7 md:w-10 md:h-10 mr-2 rounded-md overflow-hidden" src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
-            <NuxtLink to="login"><span class="hidden md:block hover:text-gray-300 ">Log in</span></NuxtLink>
+          <div class="flex items-center justify-start md:justify-center  pr-30 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
+            
+            <span class="hidden md:block hover:text-gray-300 ">{{ name }}</span>
           </div>
           
         </div>
@@ -109,48 +109,40 @@
        
      </div>
 
-     
-     <div class="w-full p-8 mx-2 flex justify-center">
-       <img id="showImage" class="max-w-xs w-80 items-center rounded-lg" src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200" alt="">    
-                            
-       </div>
-       <div class="pl-14"><span>Upload a photo <span class="text-sm text-gray-400">(min 800x800)</span></span></div>
-   </div>
-   
-   <div class="w-full md:w-3/5 p-8  lg:ml-4 ">
+     <div class="w-full md:w-3/5 p-2  ">
      <div class="rounded   p-6">
        <div class="pb-6">
         <span class="text-gray-200 pt-8 block opacity-70 pb-4">Personal information</span>
     
          <label for="name" class="font-semibold text-gray-300 block pb-1">Name</label>
          <div class="flex">
-           <input id="name" class="border-1  rounded-r px-4 py-2 w-full" type="name" @input="$emit('update:name', $event.target.value)" />
+          <h1>{{ name }}</h1>
+    
          </div>
        </div>
        <div class="pb-4">
          <label for="about" class="font-semibold text-gray-300 block pb-1">Email</label>
-         <input id="email" class="border-1  rounded-r px-4 py-2 w-full" type="email" value="example@example.com" />
-         
-         
        </div>
-       <div class="pt-4 mr-2"></div>
+       
 
       
      </div>
     
     
    </div>
+
+     
+    
+       
+   </div>
+   
+   
    
    
    
  </div>
- <div class="ml-28"></div>
- 
- 
 
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 pt-16 pl-56">
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4 pl-16 ">
           <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
             <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
               <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -180,6 +172,11 @@
           </div>
           
         </div>
+ 
+
+</div>
+
+
 
           
       
@@ -203,30 +200,47 @@
 
 
 <script type="module">
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { ref } from 'vue';
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
+  authDomain: "itec2024.firebaseapp.com",
+  projectId: "itec2024",
+  storageBucket: "itec2024.appspot.com",
+  messagingSenderId: "654897749335",
+  appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+  measurementId: "G-V38WHRYJ7R"
+};
 
 export default {
-  name: this.name,
-  props: {
-    name: String
-  },
   data() {
     return {
-      userData: null
+      name: ""
     };
   },
-  async created() {
-    const app = ref();
-    // Assuming you have already initialized Firebase app elsewhere
-    const db = getFirestore(app.value);
-    const docRef = doc(db, "users", this.name);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      this.userData = docSnap.data();
-    } else {
-      console.log("No such document!");
-    }
+  async mounted() {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Function to fetch endpoint data
+    const fetchEndpoints = async () => {
+      try {
+        const endpointsSnapshot = await getDocs(collection(db, 'users'));
+
+        // Get the first user document
+        const userDoc = endpointsSnapshot.docs[0];
+
+        // Set the name input field value to the user's name
+        this.name = userDoc.data().Name;
+
+      } catch (error) {
+        console.error("Error fetching endpoints:", error);
+      }
+    };
+
+    // Initial fetch
+    fetchEndpoints();
   }
 };
 </script>
