@@ -81,12 +81,25 @@
               <p>No endpoint data available.</p>
             </main>
           </div>
-          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-36 mt-8 ">
+          <div class="grid grid-cols-4 ">
+            <div>
+          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
               Add New Link
             </button>
           <!-- Add input field for adding new links -->
-          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4">
-           
+          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" www.web.com">
+          </div>
+          <div>
+          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
+              Refresh every "x" seconds
+            </button>
+          <!-- Add input field for adding new links -->
+          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" x">
+          </div>
+         
+
+         
+        </div>
             
             
      
