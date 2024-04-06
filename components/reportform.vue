@@ -33,7 +33,7 @@
  
       <div class="h-full ml-14 mb-10 md:ml-64 text-black pt-14 pl-24 pr-72 mr-20 ">
         <!-- Endpoint and Bug List -->
-        <div class=" flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 ">
+        <div class=" flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-4 ">
         
           <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
@@ -58,6 +58,7 @@
             REPORT
           </button>
         </div>
+        <div class="pt-4 ml-20 text-gray-500 hover:text-gray-700"><NuxtLink to="publicuser"><span>Return</span></NuxtLink></div>
       </div>
       <!-- Bug Table -->
       <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">

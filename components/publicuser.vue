@@ -49,11 +49,11 @@
          
             <div class="dashboard mx-4  ">
               <main v-if="endpointuri && endpointuri.length" >
-                <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6 ">
+                <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-4 ">
                   <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                   <p class="endpoint-status pl-12">
                     Status: {{ endpoint.status }}
-                    <span class="ml-2 mr-10 text-xs font-medium rounded-full px-1"></span>
+                    <span class="ml-2 mr-10 text-xs font-medium rounded-full px-2"></span>
                   </p>
                   <div class="w-full rounded">
                     <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-1  mt-3 leading-none rounded`"
@@ -67,7 +67,7 @@
               </main>
             </div>
 
-            <div class="pt-8"><center><NuxtLink to="report"><button class="border-2 border-red-600 rounded-md bg-red-600 px-4 py-1  text-lg">REPORT</button></NuxtLink></center></div>
+            <div class="pt-2"><center><NuxtLink to="reportform"><button class="border-2 border-red-600 rounded-md bg-red-600 px-4 py-1  text-lg">REPORT</button></NuxtLink></center></div>
             <!-- Add input field for adding new links -->
            
               

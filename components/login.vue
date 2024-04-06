@@ -80,7 +80,7 @@
                 </form>
             </div>
             <div class="flex justify-center items-center mt-6">
-                <NuxtLink to="register" target="_blank"
+                <NuxtLink to="register"
                     class="inline-flex items-center font-bold text-blue-800 hover:text-blue-700 text-xs text-center">
                     <span>
                         <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

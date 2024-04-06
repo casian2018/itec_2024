@@ -54,11 +54,9 @@
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
                 <div class="col-span-3">
-                  <p class="endpoint-url p-1">{{ endpoint.url }}</p>
-                  <p class="endpoint-status ">
-                    Status: {{ endpoint.status }}
-                  </p>
+                  <p class="endpoint-url p-1">{{ endpoint.url }} <span class="pl-4">{{ endpoint.status }}</span></p>
                   
+                
                   
                  
                 </div>
@@ -69,6 +67,7 @@
                         <th class="px-4 py-2">Bug Title</th>
                         <th class="px-4 py-2">Bug Description</th>
                         <th class="px-4 py-2">Project</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -76,11 +75,19 @@
                         <td class="border px-4 py-2">{{ bug.title }}</td>
                         <td class="border px-4 py-2">{{ bug.description }}</td>
                         <td class="border px-4 py-2">{{ bug.project }}</td>
+                        
                       </tr>
+                      
                     </tbody>
+                    
                   </table>
+                  <br>
+                  <p class="border-2 border-blue-500" pt-4></p>
+                  
                 </div>
+                
               </div>
+              
             </main>
             <main v-else>
               <p>No endpoint data available.</p>
