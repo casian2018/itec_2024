@@ -147,15 +147,7 @@
           console.error("Error adding new endpoint:", error);
         }
       },
-      async getUser() {
-        try {
-          const userData = await getDocs(collection(db, "users"));
-          const userDoc = userData.docs[0];
-          this.name = userDoc.data().Name;
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      },
+      
       getStatusWidth(status) {
         switch (status) {
           case states.STABLE:
