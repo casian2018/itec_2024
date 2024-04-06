@@ -1,7 +1,9 @@
+
 <!-- Updated template section -->
 <template>
     <!-- component -->
     <!-- component -->
+    
 <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
     <!-- logo -->
     <div class="inline-flex">
@@ -31,7 +33,7 @@
 </nav>
 
 
-<div class="pt-16 text-2xl"><span><center>Professional Website</center><div><span><center>Monitoring</center></span></div></span></div>
+<div class="pt-4 text-2xl"><span class="font-"><center>Professional Website</center><div><span class="text-red-600"><center>Monitoring</center></span></div></span></div>
     <div x-data="setup()" :class="{ 'dark': isDark }">
         
       <div
@@ -64,6 +66,8 @@
                 <p>No endpoint data available.</p>
               </main>
             </div>
+
+            <div class="pt-8"><center><NuxtLink to="report"><button class="border-2 border-red-600 rounded-md bg-red-600 px-4 py-1  text-lg">REPORT</button></NuxtLink></center></div>
             <!-- Add input field for adding new links -->
            
               
@@ -76,6 +80,8 @@
   </template>
   
   <script>
+
+  
   import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
   
@@ -191,7 +197,7 @@
   }
   
   .endpoint-item {
-    background-color: #2fffe0;
+    background-color: #d9d9d9;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
@@ -205,5 +211,16 @@
   .endpoint-status {
     margin: 5px 0;
   }
-  </style>
+
+
+
+.font-lilita-one-regular {
+    font-family: "Lilita One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+</style>
+
+  
   

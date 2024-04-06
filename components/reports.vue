@@ -2,11 +2,11 @@
   <!-- Component -->
   <div x-data="setup()" :class="{ 'dark': isDark }">
     <!-- Header -->
-    <div class="fixed w-full flex items-center justify-between h-14 text-white z-[99]">
-      <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none]">
-        <span class="hidden md:block">{{ name }}</span>
+    <div class=" flex items-center justify-between mb-64 text-white z-[99]">
+      <div class="fixed flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none]">
+        <span class="hidden md:block">ADMIN PANEL</span>
       </div>
-      <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right">
+      <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right ">
         <ul class="flex items-center"></ul>
       </div>
     </div>
@@ -39,10 +39,12 @@
             </NuxtLink>
           </li>
         </ul>
+        
       </div>
+      
+      
     </div>
-    <!-- ./Sidebar -->
-    <div class="h-full ml-14 mb-10 md:ml-64 text-black">
+    <div class="h-full ml-14 mb-10 md:ml-64 text-black ">
       <!-- Endpoint and Bug List -->
       <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
         <div class="rounded-t mb-0 px-0 border-0 ">
@@ -94,7 +96,10 @@
         <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12">
       </div>
     </div>
+    <!-- ./Sidebar -->
+   
   </div>
+  
 </template>
 
 <script>
