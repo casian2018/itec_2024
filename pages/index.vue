@@ -1,4 +1,3 @@
 <template>
 <Nav />
-<Dashboard />
 </template>
