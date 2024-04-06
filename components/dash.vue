@@ -1,113 +1,110 @@
 <template>
-    <div class="container mx-auto py-8">
-      <h1 class="text-3xl font-semibold mb-4">Lista Proiectelor Vercel</h1>
-      <div v-if="loading" class="text-gray-600">Se încarcă...</div>
-      <div v-else-if="error" class="text-red-600">{{ error }}</div>
-      <div v-else>
-        <div v-for="project in projects" :key="project.id" class="mb-4">
-          <h2 class="text-xl font-semibold">{{ project.name }}</h2>
-          <p>Status: {{ project.latestDeploy.status }}</p>
-          <div class="mt-2 h-4 bg-gray-200 rounded-full">
-            <div :class="[progressColor(project.latestDeploy.status)]" :style="{ width: deploymentProgress(project.latestDeploy.status) + '%' }" class="h-full rounded-full"></div>
-          </div>
+    <div class="dashboard">
+      <nav class="navbar">
+        <h1 class="navbar-title">Dashboard</h1>
+      </nav>
+      <div class="endpoint-list">
+        <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item">
+          <p class="endpoint-url">URL: {{ endpoint.url }}</p>
+          <p class="endpoint-status">Stare: {{ endpoint.stare }}</p>
         </div>
       </div>
     </div>
   </template>
   
-  <script setup>
-  import axios from 'axios';
-  import { ref } from 'vue';
-  
-  const vercelToken = 'QUk0AMEPdXtxFBTlu2PGZU39';
-  const apiEndPt = 'https://api.vercel.com/v9/projects';
-  
-  const projects = ref([]);
-  const loading = ref(true);
-  const error = ref('');
-  
-  const progressColor = (status) => {
-    switch (status) {
-      case 'ready':
-        return 'bg-green-500';
-      case 'building':
-        return 'bg-blue-500';
-      case 'failed':
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
-  
-  const deploymentProgress = (status) => {
-    switch (status) {
-      case 'ready':
-        return 100;
-      case 'building':
-        return 50;
-      case 'failed':
-        return 0;
-      default:
-        return 0;
-    }
-  };
-  
-
-axios.get(apiEndPt, {
-  headers: {
-    Authorization: `Bearer ${vercelToken}`,
-  },
-})
-.then(async (response) => {
-  projects.value = await Promise.all(response.data.projects.map(async (project) => {
-    try {
-      const deployments = await axios.get(`https://api.vercel.com/v12/now/deployments?projectId=${project.id}`, {
-        headers: {
-          Authorization: `Bearer ${vercelToken}`,
-        },
-      });
-      project.latestDeploy = deployments.data[0] || { status: 'Unknown' };
-      return project;
-    } catch (deployErr) {
-      // Improved error handling
-      const status = deployErr.response ? deployErr.response.status : 'Network or other error';
-      const message = deployErr.response ? deployErr.response.data : deployErr.message;
-      console.error(`Error fetching deployments for project ${project.name}: ${message}`);
-      return {
-        ...project,
-        latestDeploy: { status: 'Unknown', errorStatus: status, message: message }
-      };
-    }
-  }));
-  loading.value = false;
-})
-.catch((err) => {
-  // Improved catch block
-  const status = err.response ? err.response.status : 'Network or other error';
-  const message = err.response ? err.response.data : err.message;
-  error.value = `An error occurred: ${message}`;
-  console.error(`HTTP Status: ${status}, Error: ${message}`);
-  loading.value = false;
-});
-
-  </script>
-  
   <style scoped>
-  /* Add your CSS styles here */
-  .bg-gray-500 {
-    background-color: #d1d5db;
+  .dashboard {
+    padding: 20px;
   }
   
-  .bg-green-500 {
-    background-color: #22c55e;
+  .navbar {
+    background-color: #2196F3;
+    color: #fff;
+    padding: 10px 20px;
   }
   
-  .bg-blue-500 {
-    background-color: #60a5fa;
+  .navbar-title {
+    margin: 0;
   }
   
-  .bg-red-500 {
-    background-color: #ef4444;
+  .endpoint-list {
+    margin-top: 20px;
+  }
+  
+  .endpoint-item {
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .endpoint-url {
+    margin: 0;
+  }
+  
+  .endpoint-status {
+    margin: 5px 0;
   }
   </style>
   
+
+<script>
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
+    authDomain: "itec2024.firebaseapp.com",
+    projectId: "itec2024",
+    storageBucket: "itec2024.appspot.com",
+    messagingSenderId: "654897749335",
+    appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+    measurementId: "G-V38WHRYJ7R"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Function to update the status of an endpoint in Firestore
+async function updateEndpointStatus(endpointId, newStatus) {
+    const endpointRef = doc(db, 'endpointuri', endpointId);
+    await updateDoc(endpointRef, {
+        status: newStatus
+    });
+}
+
+export default {
+    data() {
+        return {
+            endpointuri: []
+        };
+    },
+    async mounted() {
+        try {
+            const endpointsSnapshot = await getDocs(collection(db, 'endpointuri'));
+            const updatedEndpoints = [];
+
+            endpointsSnapshot.forEach((doc) => {
+                // Call the endpoint and get the status
+                // Implement the code to call the endpoint and get the status
+
+                // Assuming newStatus represents the obtained status
+                const newStatus = "Stable"; // Example of the obtained status
+
+                // Update the endpoint status in Firebase
+                updateEndpointStatus(doc.id, newStatus);
+                updatedEndpoints.push({ id: doc.id, ...doc.data(), status: newStatus });
+            });
+
+            this.endpointuri = updatedEndpoints;
+        } catch (error) {
+            console.error("Error fetching endpoints:", error);
+        }
+    }
+};
+
+
+</script>

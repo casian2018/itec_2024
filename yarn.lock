@@ -3211,7 +3211,7 @@ fill-range@^7.0.1:
 
 firebase@^10.10.0:
   version "10.10.0"
-  resolved "https://registry.npmjs.org/firebase/-/firebase-10.10.0.tgz"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-10.10.0.tgz#9c558a37331491d02d3b94d60cadda31731e3379"
   integrity sha512-iJxnCKsBTYa4BSv8cscNbwciX42BvwoePTHg7iwWevb+GyVcZFmKi9eSkg/L7Jpu9mvAFv1jdDGbIaG3xRrE+w==
   dependencies:
     "@firebase/analytics" "0.10.2"
