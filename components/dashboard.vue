@@ -1,10 +1,10 @@
 <template>
   <!-- component -->
   <div x-data="setup()" :class="{ 'dark': isDark }">
-    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
+    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
       <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
-        <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
+        <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
           <span class="hidden md:block">{{ name }}</span>
         </div>
         <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right">
@@ -13,7 +13,7 @@
       </div>
       <!-- ./Header -->
       <!-- Sidebar -->
-      <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
+      <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
           <ul class="flex flex-col py-4 space-y-1">
             <li class="px-5 hidden md:block">
@@ -85,22 +85,23 @@
         </div>
       </div>
       <!-- ./Sidebar -->
-      <div class="h-full ml-14 mb-10 md:ml-64">
+      <div class="h-full ml-14 mb-10 md:ml-64 ">
         <!-- Social Traffic -->
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words w-full">
-          <div class="rounded-t mb-0 px-0 border-0">
-            <div class="flex flex-wrap items-center px-4 py-2"></div>
+        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words w-full ">
+          <div class="rounded-t mb-0 px-0 border-0  ">
+            <div class="flex flex-wrap items-center px-4 py-2 "></div>
           </div>
-          <div class="dashboard">
+          <div class="dashboard ">
             <main v-if="endpointuri && endpointuri.length">
-              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3">
-                <p class="endpoint-url">{{ endpoint.url }}</p>
+              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 ">
+                <p class="endpoint-url class="">{{ endpoint.url }}</p>
                 <p class="endpoint-status">
                   Status: {{ endpoint.status }}
-                  <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
+                  <span class="ml-2 text-xs font-medium rounded-full px-1 " :class="`bg-${endpoint.status}-500`">{{ endpoint.status }}</span>
                 </p>
                 <div class="w-full rounded">
-                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
+                  <div :class="` text-xs font-medium text-black text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
+                    {{ endpoint.statusWidth }}%
                   </div>
                 </div>
               </div>
@@ -121,12 +122,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/fireba
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
-  authDomain: "itec2024.firebaseapp.com",
-  projectId: "itec2024",
-  storageBucket: "itec2024.appspot.com",
-  messagingSenderId: "654897749335",
-  appId: "1:654897749335:web:86ad18e39b11b730a1b212",
-  measurementId: "G-V38WHRYJ7R"
+    authDomain: "itec2024.firebaseapp.com",
+    projectId: "itec2024",
+    storageBucket: "itec2024.appspot.com",
+    messagingSenderId: "654897749335",
+    appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+    measurementId: "G-V38WHRYJ7R"
 };
 
 const states = {
@@ -154,8 +155,6 @@ export default {
         endpointsSnapshot.forEach((doc) => {
           const endpointData = doc.data();
           const recentCalls = endpointData.callHistory ? endpointData.callHistory.slice(-10) : [];
-          console.log("Recent Calls:", recentCalls);
-
           const status = calculateStatus(recentCalls);
 
           updatedEndpoints.push({
@@ -214,14 +213,13 @@ export default {
     setInterval(fetchEndpoints, 1000);
   },
 };
-
 </script>
 
 <style scoped>
 .dashboard {
   padding: 20px;
+  color: black;
 }
-
 .navbar {
   background-color: #2196F3;
   color: #fff;
@@ -234,20 +232,25 @@ export default {
 
 .endpoint-list {
   margin-top: 20px;
+  
 }
 
 .endpoint-item {
-  background-color: #000000;
+  background-color: #f4f4f4;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+  
+  
 }
 
 .endpoint-url {
   margin: 0;
+  
 }
 
 .endpoint-status {
   margin: 5px 0;
+
 }
 </style>
