@@ -8,7 +8,7 @@
         <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
           <div class="flex items-center justify-start md:justify-center  pr-30 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
             
-            <span class="hidden md:block hover:text-gray-300 ">{{ name }}</span>
+            <span class="hidden md:block hover:text-gray-300 " >{{ name }}</span>
           </div>
           
         </div>
@@ -232,7 +232,7 @@ export default {
         const userDoc = endpointsSnapshot.docs[0];
 
         // Set the name input field value to the user's name
-        this.name = userDoc.data().Name;
+        name = userDoc.data().Name;
 
       } catch (error) {
         console.error("Error fetching endpoints:", error);

@@ -1,5 +1,5 @@
 <template>
 
-    <Dash />
+    <dashboard />
 
 </template>
