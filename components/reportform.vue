@@ -1,14 +1,39 @@
 <template>
-    <!- <div x-data="setup()" :class="{ 'dark': isDark }">
-    
-    
-      <!-- Sidebar -->
-      <!-- Sidebar -->
-     
+    <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
+    <!-- logo -->
+    <div class="inline-flex">
+       <img src="/public/logo.png" class="w-44">
+    </div>
 
-      <div class="h-full ml-14 mb-10 md:ml-64 text-black">
+    <!-- end logo -->
+    <!-- login -->
+    <div class="flex-initial">
+      <div class="flex justify-end items-center relative">
+       
+        <div class="flex mr-4 items-center">
+          <NuxtLink to="login" class="inline-block py-2 px-3  rounded-full" >
+            <div class="flex items-center relative cursor-pointer whitespace-nowrap">Log in</div>
+          </NuxtLink>
+         
+        </div>
+
+        <div class="block">
+            <div class="inline relative">
+                <div class="flex items-center relative cursor-pointer whitespace-nowrap ">About</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- end login -->
+</nav>
+
+
+<div class="pt-4 text-2xl"><span class="font-"><center>Professional Website</center><div><span class="text-red-600"><center>Monitoring</center></span></div></span></div>
+ 
+ 
+      <div class="h-full ml-14 mb-10 md:ml-64 text-black pt-14 pl-24 pr-72 mr-20 ">
         <!-- Endpoint and Bug List -->
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
+        <div class=" flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 ">
         
           <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
@@ -19,18 +44,19 @@
             </main>
           </div>
           <!-- Add input field for adding new bugs -->
-          <div class="flex flex-col mt-4">
-            <label for="project" class="text-sm font-medium text-gray-900">Select Project:</label>
-            <select v-model="selectedProject" id="project" name="project" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-              <option value="" disabled>Select a project</option>
+          <div class="flex flex-col mt-4 py-6 px-4">
+            <label for="project" class="text-sm font-medium text-gray-900 ">Select Website:</label>
+            <select v-model="selectedProject" id="project" name="project" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm p-0.5">
+              <option value="" disabled>-</option>
               <option v-for="project in projects" :key="project" :value="project">{{ project }}</option>
             </select>
-          </div>
-          <button @click="addNewBug" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 mt-4 rounded w-full">
-            Add New Bug
+          
+          <input v-model="newBugTitle" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4 p-1.5" placeholder="Title">
+          <input v-model="newBugDescription" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4 p-1 pb-16" placeholder="Description">
+        </div>
+          <button @click="addNewBug" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 mt-4  w-full">
+            REPORT
           </button>
-          <input v-model="newBugTitle" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Title">
-          <input v-model="newBugDescription" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Description">
         </div>
       </div>
       <!-- Bug Table -->
@@ -46,6 +72,7 @@
       <!-- ./Header -->
       
       </div>
+   
     
   </template>
   
