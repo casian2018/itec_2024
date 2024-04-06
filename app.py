@@ -27,21 +27,14 @@ def monitor_endpoints():
         for doc in endpoints_collection.stream():
             endpoint_url = doc.to_dict().get("url")
             if endpoint_url:
-                # Fetch the last 10 calls to the endpoint
-                calls = requests.get(endpoint_url).history[-10:]
-                
-                # Check if all calls are either 200 or 302
-                if all(call.status_code == 200 or call.status_code == 302 for call in calls):
-                    status = "Stable"
-                # Check if there's at least one call that is not 200 or 302
-                elif any(call.status_code != 200 and call.status_code != 302 for call in calls):
+                # Check if there are any bugs submitted for this endpoint
+                bugs_collection = db.collection("bugs").where("project", "==", endpoint_url).limit(1).get()
+                if bugs_collection:
                     status = "Unstable"
-                # Otherwise, all calls are neither 200 nor 302
                 else:
-                    status = "Down"
-                
+                    status = get_endpoint_status(endpoint_url)
+
                 endpoint_doc_ref = endpoints_collection.document(doc.id)
-                
                 update_endpoint_status(endpoint_doc_ref, status)
         
         time.sleep(10)  # Sleep for 10 seconds
