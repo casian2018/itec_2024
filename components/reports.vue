@@ -3,7 +3,7 @@
   <div x-data="setup()" :class="{ 'dark': isDark }">
     <!-- Header -->
     <div class=" flex items-center justify-between mb-64 text-white z-[99]">
-      <div class="fixed flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none]">
+      <div class="fixed flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
         <span class="hidden md:block">ADMIN PANEL</span>
       </div>
       <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right ">
@@ -13,6 +13,7 @@
     <!-- ./Header -->
     <!-- Sidebar -->
     <!-- Sidebar -->
+<<<<<<< Updated upstream
     <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none sidebar">
       <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
         <ul class="flex flex-col py-4 space-y-1">
@@ -38,22 +39,48 @@
               <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span>
             </NuxtLink>
           </li>
+=======
+    <div class="fixed flex flex-col top-14 mb-4 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none sidebar">
+        <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow ">
+          <ul class="flex flex-col py-4 space-y-1">
+            <li class="px-5 hidden md:block">
+              <div class="flex flex-row items-center ">
+                <div class="text-sm font-light tracking-wide text-white uppercase"></div>
+              </div>
+            </li>
+            <li >
+              <NuxtLink to="dash" class="relative flex flex-row items-center h-11 focus:outline-none  border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-4">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate ">Dashboard</span>
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="reports" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-700 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate text-gray-400">Reports</span>
+                <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span>
+              </NuxtLink>
+            </li>
+>>>>>>> Stashed changes
         </ul>
         
-      </div>
-      
-      
+      </div>  
     </div>
-    <div class="h-full ml-14 mb-10 md:ml-64 text-black ">
+</div>
+    <div class="h-full ml-14 mb-10 md:ml-64 text-black  ">
       <!-- Endpoint and Bug List -->
-      <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
+      <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 rounded-xl">
         <div class="rounded-t mb-0 px-0 border-0 ">
-          <div class="flex flex-wrap items-center px-4 py-2 "></div>
+          <div class="flex flex-wrap items-center px-4 py-2   "></div>
         </div>
-        <div class="dashboard mx-4">
+        <div class="dashboard mx-4 ">
           <main v-if="endpointuri && endpointuri.length">
-            <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
-              <div class="col-span-3">
+            <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3">
+              <div class="col-span-3 ">
                 <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                 <p class="endpoint-status">
                   Status: {{ endpoint.status }}
@@ -98,7 +125,7 @@
     </div>
     <!-- ./Sidebar -->
    
-  </div>
+  
   
 </template>
 

@@ -8,7 +8,7 @@
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
         <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
-          <span class="hidden md:block">{{ name }}</span>
+          <span class="hidden md:block">ADMIN PANEL</span>
         </div>
         <div class="flex justify-between items-center h-14 bg-blue-800 dark:bg-gray-800 header-right">
           <ul class="flex items-center"></ul>
@@ -21,8 +21,8 @@
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
           <ul class="flex flex-col py-4 space-y-1">
             <li class="px-5 hidden md:block">
-              <div class="flex flex-row items-center h-8">
-                <div class="text-sm font-light tracking-wide text-white uppercase">Main</div>
+              <div class="flex flex-row items-center ">
+                <div class="text-sm font-light tracking-wide text-white uppercase"></div>
               </div>
             </li>
             <li >
@@ -63,7 +63,7 @@
                   <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
                 <div class="w-full rounded">
-                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`"
+                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center  p-1  mt-3  leading-none rounded`"
                     :style="{ width: getStatusWidth(endpoint.status) }">
                   </div>
                 </div>

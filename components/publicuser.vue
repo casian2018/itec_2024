@@ -53,7 +53,7 @@
                   <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                   <p class="endpoint-status pl-12">
                     Status: {{ endpoint.status }}
-                    <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
+                    <span class="ml-2 mr-10 text-xs font-medium rounded-full px-1"></span>
                   </p>
                   <div class="w-full rounded">
                     <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-1  mt-3 leading-none rounded`"
