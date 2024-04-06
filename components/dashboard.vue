@@ -630,10 +630,6 @@
 <script type="module">
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-
-const auth = getAuth();
-
 
 
 const firebaseConfig = {
@@ -689,8 +685,6 @@ export default {
         console.error("Error fetching endpoints:", error);
       }
     };
-
-    
 
     // Initial fetch
     getUser();
