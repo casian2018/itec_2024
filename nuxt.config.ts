@@ -1,7 +1,7 @@
 // nuxt.config.js
 export default {
   // Alte configurații
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
   buildModules: [
     '@nuxtjs/firebase'
   ],
