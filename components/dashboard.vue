@@ -57,19 +57,23 @@
           <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-4 mt-6">
-                <p class="endpoint-url p-1">{{ endpoint.url }}</p>
-                <p class="endpoint-status">
+                <p class="endpoint-url ">{{ endpoint.url }}</p>
+                <p class="endpoint-status ">
                   Status: {{ endpoint.status }}
                   <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
-                <div class="rounded ">
-                  <button @click="removeEndpoint(endpoint.id)" class="bg-red-500 hover:bg-red-600 text-white font-medium rounded ml-2 mt-2 w-4">
+               
+                  <div class="bg-blue-500 text-xs font-medium  ml-16  p-1  mb-2 mt-4 leading-none rounded"
+                    :style="{ width: getStatusWidth(endpoint.status) }">
+                    
+                  </div>
+                  <div class="rounded ">
+                  <button @click="removeEndpoint(endpoint.id)" class="bg-red-500 hover:bg-red-600 text-white font-medium rounded ml-52 mt-2 w-4 h-4 text-xs">
                   X
                 </button>
-                  <div class="bg-blue-500 text-xs font-medium text-blue-100 text-center  p-1  mt-3  leading-none rounded"
-                    :style="{ width: getStatusWidth(endpoint.status) }">
-                  </div>
+                  
                 </div>
+                
                 
               </div>
             </main>
@@ -216,6 +220,6 @@ export default {
 }
 
 .endpoint-status {
-  margin: 5px 0;
+  margin: 5px ;
 }
 </style>

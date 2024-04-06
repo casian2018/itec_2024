@@ -1,1 +1,2 @@
-<template><publicuser></publicuser></template>
+<template><publicuser></publicuser>
+<NuxtPage></NuxtPage></template>

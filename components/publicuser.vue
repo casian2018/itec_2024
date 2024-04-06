@@ -17,7 +17,7 @@
        
         <div class="flex mr-4 items-center">
           <NuxtLink to="login" class="inline-block py-2 px-3  rounded-full" >
-            <div class="flex items-center relative cursor-pointer whitespace-nowrap">Log in</div>
+            <div class="flex items-center relative cursor-pointer whitespace-nowrap">Panel</div>
           </NuxtLink>
          
         </div>
