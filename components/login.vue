@@ -1,79 +1,99 @@
 <template>
 
     <!-- component -->
-<link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
 
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-  <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
-    <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
-    <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
-      <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" class="w-8 h-8"></span>
-      <span @click="googleSignIn">Login with Google</span>
-    </button>
-    <div class="relative mt-10 h-px bg-gray-300">
-      <div class="absolute left-0 top-0 flex justify-center w-full -mt-2">
-        <span class="bg-white px-4 text-xs text-gray-500 uppercase">Or Login With Email</span>
-      </div>
-    </div>
-    <div class="mt-10">
-      <form @submit.prevent="login">
-        <div class="flex flex-col mb-6">
-          <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail Address:</label>
-          <div class="relative">
-            <div class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-              <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-              </svg>
+    <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
+        <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
+            <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
+            <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+                <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><img
+                        src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+                        class="w-8 h-8"></span>
+                <span @click="googleSignIn">Login with Google</span>
+            </button>
+            <div class="relative mt-10 h-px bg-gray-300">
+                <div class="absolute left-0 top-0 flex justify-center w-full -mt-2">
+                    <span class="bg-white px-4 text-xs text-gray-500 uppercase">Or Login With Email</span>
+                </div>
             </div>
+            <div class="mt-10">
+                <form @submit.prevent="login">
+                    <div class="flex flex-col mb-6">
+                        <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail
+                            Address:</label>
+                        <div class="relative">
+                            <div
+                                class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+                            </div>
 
-            <input id="email" type="email" name="email" class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" v-model="email"/>
-          </div>
-        </div>
-        <div class="flex flex-col mb-6">
-          <label for="password" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
-          <div class="relative">
-            <div class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-              <span>
-                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </span>
+                            <input id="email" type="email" name="email"
+                                class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                                placeholder="E-Mail Address" v-model="email" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col mb-6">
+                        <label for="password"
+                            class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
+                        <div class="relative">
+                            <div
+                                class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                                <span>
+                                    <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <input id="password" type="password" name="password"
+                                class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                                placeholder="Password" v-model="password" />
+                        </div>
+                    </div>
+
+                    <div class="flex items-center mb-6 -mt-4">
+                        <div class="flex ml-auto">
+                            <a href="#" class="inline-flex text-xs sm:text-sm text-blue-800 hover:text-blue-700">Forgot
+                                Your Password?</a>
+                        </div>
+                    </div>
+
+                    <div class="flex w-full">
+                        <button type="submit"
+                            class="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-indigo-900 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in">
+                            <span class="mr-2 uppercase">Login</span>
+                            <span>
+                                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <input id="password" type="password" name="password" class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" v-model="password"/>
-          </div>
+            <div class="flex justify-center items-center mt-6">
+                <NuxtLink to="register" target="_blank"
+                    class="inline-flex items-center font-bold text-blue-800 hover:text-blue-700 text-xs text-center">
+                    <span>
+                        <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        </svg>
+                    </span>
+                    <span class="ml-2">You don't have an account?</span>
+                </NuxtLink>
+            </div>
         </div>
-
-        <div class="flex items-center mb-6 -mt-4">
-          <div class="flex ml-auto">
-            <a href="#" class="inline-flex text-xs sm:text-sm text-blue-800 hover:text-blue-700" >Forgot Your Password?</a>
-          </div>
-        </div>
-
-        <div class="flex w-full">
-          <button type="submit" class="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-indigo-900 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in">
-            <span class="mr-2 uppercase">Login</span>
-            <span>
-              <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </span>
-          </button>
-        </div>
-      </form>
     </div>
-    <div class="flex justify-center items-center mt-6">
-      <NuxtLink to="register" target="_blank" class="inline-flex items-center font-bold text-blue-800 hover:text-blue-700 text-xs text-center">
-        <span>
-          <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-            <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-          </svg>
-        </span>
-        <span class="ml-2" >You don't have an account?</span>
-      </NuxtLink>
-    </div>
-  </div>
-</div>
 
 </template>
 
@@ -81,13 +101,13 @@
 
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
+// Your web app's Firebase configuration
+const firebaseConfig = {
     apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
     authDomain: "itec2024.firebaseapp.com",
     projectId: "itec2024",
@@ -95,61 +115,62 @@
     messagingSenderId: "654897749335",
     appId: "1:654897749335:web:86ad18e39b11b730a1b212",
     measurementId: "G-V38WHRYJ7R"
-  };
+};
 
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 
-  // Initialize Firebase
-  
+// Initialize Firebase
 
-  // Import Firebase Authentication
+
+// Import Firebase Authentication
 import {
     getAuth,
     signInWithEmailAndPassword,
-  } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
-  import {signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-  // Get a reference to the Firebase Authentication service
-  const auth = getAuth(app);
+import { signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+// Get a reference to the Firebase Authentication service
+const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 
-  export default {
+export default {
     data() {
-      return {
-        email: '',
-        password: ''
-      }
+        return {
+            email: '',
+            password: ''
+        }
     },
     methods: {
-      async login() {
-        try {
-          await signInWithEmailAndPassword(auth, this.email, this.password)
-          // Redirect to the dashboard page or perform any other action after successful login
-          this.$router.push('dash')
-        } catch (error) {
-          // Handle the error
-          console.error(error)
-        } 
-      },
+        async login() {
+            try {
+                await signInWithEmailAndPassword(auth, this.email, this.password)
+                // Redirect to the dashboard page or perform any other action after successful login
+                this.$router.push('dash')
+            } catch (error) {
+                // Handle the error
+                console.error(error)
+            }
+        },
 
-      async googleSignIn() {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-            this.$router.push('dash')
-        } catch (error) {
-            console.error(error);
+        async googleSignIn() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                const user = result.user;
+                this.$router.push('dash')
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }  }
-  }
-
-  
-  
+    }
+}
 
 
-  
+
+
+
+
 </script>

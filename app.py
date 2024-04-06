@@ -20,7 +20,7 @@ def get_endpoint_status(endpoint_url):
 
 # Funcție pentru a actualiza starea unui endpoint în Firestore
 def update_endpoint_status(endpoint_doc_ref, new_status):
-    endpoint_doc_ref.update({"stare": new_status})
+    endpoint_doc_ref.update({"status": new_status})
 
 # Obține o referință către colecția "endpointuri" din Firestore
 db = firestore.client()

@@ -4,9 +4,15 @@
         <h1 class="navbar-title">Dashboard</h1>
       </nav>
       <div class="endpoint-list">
-        <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item">
-          <p class="endpoint-url">URL: {{ endpoint.url }}</p>
-          <p class="endpoint-status">Stare: {{ endpoint.stare }}</p>
+        <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3">
+          <p class="endpoint-url">Website: {{ endpoint.url }}</p>
+          <p class="endpoint-status">Status: {{ endpoint.status }}</p>
+          <div class="w-full bg-gray-200 rounded">
+            <div
+              :class="`bg-${color}-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`"
+              :style="{ width: `${statusWidth}%` }"
+            >{{ statusWidth }}%</div>
+          </div>
         </div>
       </div>
     </div>
@@ -47,14 +53,11 @@
   }
   </style>
   
-
-<script>
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
+  <script>
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+  
+  const firebaseConfig = {
     apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
     authDomain: "itec2024.firebaseapp.com",
     projectId: "itec2024",
@@ -62,49 +65,40 @@ const firebaseConfig = {
     messagingSenderId: "654897749335",
     appId: "1:654897749335:web:86ad18e39b11b730a1b212",
     measurementId: "G-V38WHRYJ7R"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// Function to update the status of an endpoint in Firestore
-async function updateEndpointStatus(endpointId, newStatus) {
-    const endpointRef = doc(db, 'endpointuri', endpointId);
-    await updateDoc(endpointRef, {
-        status: newStatus
-    });
-}
-
-export default {
+  };
+  
+  export default {
     data() {
-        return {
-            endpointuri: []
-        };
+      return {
+        endpointuri: []
+      };
     },
     async mounted() {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      
+      // Function to fetch endpoint data
+      const fetchEndpoints = async () => {
         try {
-            const endpointsSnapshot = await getDocs(collection(db, 'endpointuri'));
-            const updatedEndpoints = [];
-
-            endpointsSnapshot.forEach((doc) => {
-                // Call the endpoint and get the status
-                // Implement the code to call the endpoint and get the status
-
-                // Assuming newStatus represents the obtained status
-                const newStatus = "Stable"; // Example of the obtained status
-
-                // Update the endpoint status in Firebase
-                updateEndpointStatus(doc.id, newStatus);
-                updatedEndpoints.push({ id: doc.id, ...doc.data(), status: newStatus });
-            });
-
-            this.endpointuri = updatedEndpoints;
+          const endpointsSnapshot = await getDocs(collection(db, 'endpointuri'));
+          const updatedEndpoints = [];
+  
+          endpointsSnapshot.forEach((doc) => {
+            updatedEndpoints.push({ id: doc.id, ...doc.data() });
+          });
+  
+          this.endpointuri = updatedEndpoints;
         } catch (error) {
-            console.error("Error fetching endpoints:", error);
+          console.error("Error fetching endpoints:", error);
         }
+      };
+  
+      // Initial fetch
+      fetchEndpoints();
+  
+      // Refresh endpoint data every second
+      setInterval(fetchEndpoints, 1);
     }
-};
-
-
-</script>
+  };
+  </script>
+  
