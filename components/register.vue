@@ -133,21 +133,8 @@ import {
   const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-store.js";
-
-const db = getFirestore(app);
-
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-store.js";
 
 
-
-// Get a reference to the user document
-const userDoc = doc(db, "users", auth.currentUser.uid);
-
-// Set the user's name in the Firestore document
-await setDoc(userDoc, {
-    name: this.name
-});
 
   export default {
     data() {
@@ -159,17 +146,19 @@ await setDoc(userDoc, {
     },
     methods: {
         async register() {
-        try {
-          await createUserWithEmailAndPassword(auth, this.email, this.password, this.name)
-          // Redirect to the dashboard page or perform any other action after successful registration
-          this.$router.push('dash')
-        } catch (error) {
-          // Handle the error
-          console.error(error)
-        }
-        await setDoc(userDoc, {
-    name: this.name
-});
+          try {
+      await createUserWithEmailAndPassword(auth, this.email, this.password)
+      // Redirect to the dashboard page or perform any other action after successful registration
+      this.$router.push('main')
+
+      // Write the name to Firestore
+      await setDoc(doc(db, "users", this.name), {
+        Name : this.name
+      });
+    } catch (error) {
+      // Handle the error
+      console.error(error)
+    }
       },
 
       async googleSignIn() {
