@@ -85,23 +85,22 @@
         </div>
       </div>
       <!-- ./Sidebar -->
-      <div class="h-full ml-14 mb-10 md:ml-64 ">
+      <div class="h-full ml-14 mb-10 md:ml-64">
         <!-- Social Traffic -->
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words w-full ">
-          <div class="rounded-t mb-0 px-0 border-0  ">
-            <div class="flex flex-wrap items-center px-4 py-2 "></div>
+        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words w-full">
+          <div class="rounded-t mb-0 px-0 border-0">
+            <div class="flex flex-wrap items-center px-4 py-2"></div>
           </div>
-          <div class="dashboard ">
+          <div class="dashboard">
             <main v-if="endpointuri && endpointuri.length">
-              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 ">
-                <p class="endpoint-url class="">{{ endpoint.url }}</p>
+              <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3">
+                <p class="endpoint-url">{{ endpoint.url }}</p>
                 <p class="endpoint-status">
                   Status: {{ endpoint.status }}
-                  <span class="ml-2 text-xs font-medium rounded-full px-1 " :class="`bg-${endpoint.status}-500`">{{ endpoint.status }}</span>
+                  <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
                 <div class="w-full rounded">
-                  <div :class="` text-xs font-medium text-black text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
-                    {{ endpoint.statusWidth }}%
+                  <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`" :style="{ width: `${endpoint.statusWidth}%` }">
                   </div>
                 </div>
               </div>
@@ -232,7 +231,6 @@ export default {
 
 .endpoint-list {
   margin-top: 20px;
-  
 }
 
 .endpoint-item {
@@ -240,17 +238,13 @@ export default {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
-  
-  
 }
 
 .endpoint-url {
   margin: 0;
-  
 }
 
 .endpoint-status {
   margin: 5px 0;
-
 }
 </style>
