@@ -1,3 +1,4 @@
 <template>
-<Nav />
+    <Nav />
+    <Publicuser />
 </template>
