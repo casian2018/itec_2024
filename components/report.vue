@@ -50,20 +50,17 @@
         <!-- Endpoint and Bug List -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
         
-          <div class="dashboard mx-4">
+          <div class="dashboard mx-4 pb-6">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
                 <div class="col-span-3">
                   <p class="endpoint-url p-1">{{ endpoint.url }}</p>
-                  <p class="endpoint-status">
+                  <p class="endpoint-status ">
                     Status: {{ endpoint.status }}
-                    <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                   </p>
-                  <div class="w-full rounded">
-                    <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded`"
-                      :style="{ width: getStatusWidth(endpoint.status) }">
-                    </div>
-                  </div>
+                  
+                  
+                 
                 </div>
                 <div class="col-span-3 mt-2">
                   <table class="w-full table-auto">
@@ -90,26 +87,12 @@
             </main>
           </div>
           <!-- Add input field for adding new bugs -->
-          <div class="flex flex-col mt-4">
-            <label for="project" class="text-sm font-medium text-gray-900">Select Project:</label>
-            <select v-model="selectedProject" id="project" name="project" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-              <option value="" disabled>Select a project</option>
-              <option v-for="project in projects" :key="project" :value="project">{{ project }}</option>
-            </select>
-          </div>
-          <button @click="addNewBug" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 mt-4 rounded w-full">
-            Add New Bug
-          </button>
-          <input v-model="newBugTitle" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Title">
-          <input v-model="newBugDescription" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-full mt-4" placeholder="Bug Description">
+         
+         
         </div>
       </div>
       <!-- Bug Table -->
-      <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-        
-      <!-- ./Sidebar -->
-     
-    </div>
+    
 
     
       <!-- Header -->
