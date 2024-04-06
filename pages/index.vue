@@ -1,4 +1,4 @@
 <template>
-    <Nav />
-    <Publicuser />
+    <publicuser></publicuser>
+    <NuxtPage></NuxtPage>
 </template>
