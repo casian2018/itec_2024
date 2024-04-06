@@ -146,6 +146,8 @@ export default {
         async login() {
             try {
                 await signInWithEmailAndPassword(auth, this.email, this.password)
+                
+                
                 // Redirect to the dashboard page or perform any other action after successful login
                 this.$router.push('dash')
             } catch (error) {
