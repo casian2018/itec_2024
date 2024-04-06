@@ -33,11 +33,58 @@
         </div>
       </form>
     </div>
-    
   </div>
 </div>
-
 </template>
+
+
+<script>
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
+  authDomain: "itec2024.firebaseapp.com",
+  projectId: "itec2024",
+  storageBucket: "itec2024.appspot.com",
+  messagingSenderId: "654897749335",
+  appId: "1:654897749335:web:86ad18e39b11b730a1b212",
+  measurementId: "G-V38WHRYJ7R"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Initialize Firestore
+
+export default {
+  data() {
+    return {
+      bugs: []
+    };
+  },
+  async fetch() {
+    await this.loadBugs();
+  },
+  methods: {
+    async loadBugs() {
+      try {
+        const bugsSnapshot = await getDocs(collection(db, "bugs"));
+        const bugs = bugsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        this.bugs = bugs;
+      } catch (error) {
+        console.error("Error fetching bugs:", error);
+      }
+    }
+  }
+};
+</script>
+
+<style>
+/* Stiluri Tailwind CSS pot fi adăugate aici, dacă este necesar */
+</style>
+
 
 
 
