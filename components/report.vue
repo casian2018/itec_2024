@@ -1,9 +1,8 @@
 <template>
-    <!- <div x-data="setup()" :class="{ 'dark': isDark }">
-    <div
-      class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
+    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
       <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
+        <!-- Header content -->
         <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
           <span class="hidden md:block">ADMIN PANEL</span>
@@ -13,7 +12,7 @@
         </div>
       </div>
       <!-- ./Header -->
-      <!-- Sidebar -->
+  
       <!-- Sidebar -->
       <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -45,20 +44,16 @@
           </ul>
         </div>
       </div>
-
+      <!-- Sidebar content -->
+  
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
         <!-- Endpoint and Bug List -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
-        
           <div class="dashboard mx-4 pb-6">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
                 <div class="col-span-3">
                   <p class="endpoint-url p-1">{{ endpoint.url }} <span class="pl-4">{{ endpoint.status }}</span></p>
-                  
-                
-                  
-                 
                 </div>
                 <div class="col-span-3 mt-2">
                   <table class="w-full table-auto">
@@ -67,7 +62,7 @@
                         <th class="px-4 py-2">Bug Title</th>
                         <th class="px-4 py-2">Bug Description</th>
                         <th class="px-4 py-2">Project</th>
-                        
+                        <th class="px-4 py-2">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -75,43 +70,26 @@
                         <td class="border px-4 py-2">{{ bug.title }}</td>
                         <td class="border px-4 py-2">{{ bug.description }}</td>
                         <td class="border px-4 py-2">{{ bug.project }}</td>
-                        
+                        <td class="border px-4 py-2">
+                          <button @click="markBugResolved(endpoint.id, index)" class="bg-green-500 text-white px-2 py-1 rounded-md">Mark Resolved</button>
+                        </td>
                       </tr>
-                      
                     </tbody>
-                    
                   </table>
-                  <br>
-                  <p class="border-2 border-blue-500" pt-4></p>
-                  
                 </div>
-                
               </div>
-              
             </main>
             <main v-else>
               <p>No endpoint data available.</p>
             </main>
           </div>
-          <!-- Add input field for adding new bugs -->
-         
-         
         </div>
       </div>
-      <!-- Bug Table -->
-    
-
-    
-      <!-- Header -->
-    
-      <!-- ./Header -->
-      
-      </div>
-    
+    </div>
   </template>
   
   <script>
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
   
   const firebaseConfig = {
@@ -125,12 +103,7 @@
   };
   
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app); // Initialize Firestore
-  const states = {
-    STABLE: "Stable",
-    UNSTABLE: "Unstable",
-    DOWN: "Down",
-  };
+  const db = getFirestore(app);
   
   export default {
     data() {
@@ -139,16 +112,15 @@
         newBugTitle: "",
         newBugDescription: "",
         name: "",
-        projects: [], // Array to store project URLs
-        selectedProject: "", // Variable to store the selected project URL
-        bugs: [], // Array to store bugs
+        projects: [],
+        selectedProject: "",
+        bugs: [],
       };
     },
     async mounted() {
-      await this.fetchData(); // Fetch initial data
-      await this.getUser(); // Fetch user data
+      await this.fetchData();
+      await this.getUser();
   
-      // Refresh data every 10 seconds
       setInterval(async () => {
         await this.fetchData();
       }, 10000);
@@ -158,18 +130,17 @@
         try {
           const endpointsSnapshot = await getDocs(collection(db, "endpointuri"));
           const updatedEndpoints = [];
-          const projectURLs = []; // Temporary array to store project URLs
+          const projectURLs = [];
           endpointsSnapshot.forEach((doc) => {
             updatedEndpoints.push({
               id: doc.id,
               ...doc.data(),
             });
-            projectURLs.push(doc.data().url); // Push project URL to temporary array
+            projectURLs.push(doc.data().url);
           });
           this.endpointuri = updatedEndpoints;
-          this.projects = projectURLs; // Assign project URLs to the data property
+          this.projects = projectURLs;
   
-          // Fetch bugs
           const bugsSnapshot = await getDocs(collection(db, "bugs"));
           const bugs = [];
           bugsSnapshot.forEach((doc) => {
@@ -178,7 +149,7 @@
               ...doc.data(),
             });
           });
-          this.bugs = bugs; // Assign bugs to the data property
+          this.bugs = bugs;
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -188,10 +159,7 @@
           const title = this.newBugTitle.trim();
           const description = this.newBugDescription.trim();
           if (title && description && this.selectedProject) {
-            // Add the new bug to Firestore
             await addDoc(collection(db, "bugs"), { title, description, project: this.selectedProject });
-  
-            // Clear input fields
             this.newBugTitle = "";
             this.newBugDescription = "";
           }
@@ -200,24 +168,42 @@
         }
       },
       async getUser() {
+  try {
+    const userData = await getDocs(collection(db, "users"));
+    if (!userData.empty) {
+      const userDoc = userData.docs[0];
+      if (userDoc.exists()) {
+        this.name = userDoc.data().Name;
+      } else {
+        console.error("User document does not exist");
+      }
+    } else {
+      console.error("No user data available");
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+},
+      async markBugResolved(endpointID, bugIndex) {
         try {
-          const userData = await getDocs(collection(db, "users"));
-          const userDoc = userData.docs[0];
-          this.name = userDoc.data().Name;
+          const endpointRef = doc(db, 'endpointuri', endpointID);
+          const endpointData = (await getDocs(endpointRef)).data();
+  
+          if (endpointData) {
+            endpointData['bugs'][bugIndex]['resolved'] = true;
+            await updateDoc(endpointRef, { bugs: endpointData['bugs'] });
+          } else {
+            console.error("Endpoint with ID '" + endpointID + "' does not exist.");
+          }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Error marking bug as resolved:", error);
         }
       },
-      getStatusWidth(status) {
-        switch (status) {
-          case states.STABLE:
-            return '100%'; // If status is stable, width is 100%
-          case states.UNSTABLE:
-            return '50%'; // If status is unstable, width is 50%
-          case states.DOWN:
-            return '30%'; // If status is down, width is 30%
-          default:
-            return '0%'; // Default width is 0%
+      async deleteBug(bugID) {
+        try {
+          await deleteDoc(doc(db, "bugs", bugID));
+        } catch (error) {
+          console.error("Error deleting bug:", error);
         }
       },
       filteredBugs(endpointURL) {
@@ -234,13 +220,4 @@
   <style scoped>
   /* Styles here */
   </style>
-
-
-<!-- Updated template section -->
-
-  <!-- component -->
- 
-
-
-
   

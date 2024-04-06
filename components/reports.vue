@@ -169,31 +169,39 @@ export default {
       }
     },
     async getUser() {
-      try {
-        const userData = await getDocs(collection(db, "users"));
-        if (userData.docs.length > 0) {
-          const userDoc = userData.docs[0];
-          if (userDoc.exists && userDoc.data()) { // Check if userDoc and userDoc.data() exist
-            this.name = userDoc.data().Name;
-          } else {
-            console.error("User document does not exist or has no data.");
-          }
-        } else {
-          console.error("No user data found.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  try {
+    const userData = await getDocs(collection(db, "users"));
+    if (!userData.empty) {
+      const userDoc = userData.docs[0];
+      if (userDoc.exists()) { // Check if the document exists
+        this.name = userDoc.data().Name;
+      } else {
+        console.error("User document does not exist.");
       }
-    },
-    async resolveBug(endpoint) {
-      try {
-        // Update the status of the bug to "Resolved"
-        await updateDoc(doc(db, 'endpointuri', endpoint.id), { status: 'Resolved' });
-        await this.fetchData(); // Fetch updated data
-      } catch (error) {
-        console.error("Error resolving bug:", error);
-      }
-    },
+    } else {
+      console.error("No user data found.");
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+}
+
+async function resolveBug(endpoint) {
+  try {
+    // Assuming 'endpoint' is an object with an 'id' property
+    const endpointRef = doc(db, 'bugs', endpoint.id);
+
+    // Update the bug status to 'resolved' in Firestore
+    await updateDoc(endpointRef, {
+      status: 'resolved'
+    });
+
+    // Additional logic to handle the resolved bug
+    console.log(`Bug with ID ${endpoint.id} has been resolved.`);
+  } catch (error) {
+    console.error("Error resolving bug:", error);
+  }
+},
     async deleteBug(endpoint) {
       try {
         // Delete the bug from Firestore
