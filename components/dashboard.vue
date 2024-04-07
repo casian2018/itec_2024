@@ -1,7 +1,7 @@
 
 <template>
 
-  <div x-data="setup()" :class="{ 'dark': isDark }">
+  <div x-data="setup()">
     <div
       class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
@@ -76,11 +76,11 @@
           <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" www.web.com">
           </div>
           <div>
-          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
-              Refresh every "x" seconds
-            </button>
-          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" x">
-          </div>   
+  <button @click="changeDelay" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 ml-12 rounded mb-4 w-48 mt-8">
+    Refresh every "{{ delay }}" seconds
+  </button>
+  <input v-model="delay" type="number" min="1" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder="Enter seconds">
+</div> 
         </div> 
         </div>
       </div>
@@ -117,14 +117,15 @@ export default {
       endpointuri: [],
       newEndpointUrl: "",
       name: "",
+      delayInterval: null
     };
   },
   async mounted() {
-    await this.fetchData(); 
-    setInterval(async () => {
-      await this.fetchData(); 
-    }, 10000);
-  },
+  await this.fetchData();
+  this.delayInterval = setInterval(async () => {
+    await this.fetchData();
+  }, this.delay * 1000); // Convert delay from seconds to milliseconds
+},
   methods: {
     async fetchData() {
       try {
@@ -161,6 +162,12 @@ export default {
         console.error("Error removing endpoint:", error);
       }
     },
+    async changeDelay() {
+    clearInterval(this.delayInterval); // Clear the previous interval
+    this.delayInterval = setInterval(async () => {
+      await this.fetchData();
+    }, this.delay * 1000); // Convert delay from seconds to milliseconds
+  },
     getStatusWidth(status) {
       switch (status) {
         case states.STABLE:

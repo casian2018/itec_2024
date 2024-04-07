@@ -35,20 +35,25 @@
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
         <!-- Social Traffic -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 mt-8 rounded-xl">
-          <div class="dashboard mx-4">
+        <div class="dashboard mx-4">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-4">
                 <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                 <p class="endpoint-status pl-12">
                   Status: {{ endpoint.status }}
                   <span class="ml-2 mr-10 text-xs font-medium rounded-full px-2"></span>
-                </p>
+                </p> 
                 <div class="w-full rounded">
                   <div :class="`bg-blue-500 text-xs font-medium text-blue-100 text-center p-1 mt-3 leading-none rounded`"
                     :style="{ width: getStatusWidth(endpoint.status) }">
+              
                   </div>
+                 
                 </div>
+              
+              
               </div>
+         
             </main>
             <main v-else>
               <p>No endpoint data available.</p>
