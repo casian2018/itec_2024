@@ -1,6 +1,5 @@
-<!-- Updated template section -->
 <template>
-  <!-- component -->
+  <!-- Your existing template code -->
   <div x-data="setup()" :class="{ 'dark': isDark }">
     <div
       class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
@@ -15,7 +14,6 @@
         </div>
       </div>
       <!-- ./Header -->
-      <!-- Sidebar -->
       <!-- Sidebar -->
       <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -90,11 +88,11 @@
           <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" www.web.com">
           </div>
           <div>
-          <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
-              Refresh every "x" seconds
+          <button @click="updateRefreshInterval" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
+              Refresh every "{{ refreshInterval }}" seconds
             </button>
-          <!-- Add input field for adding new links -->
-          <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" x">
+          <!-- Add input field for specifying custom refresh interval -->
+          <input v-model.number="customRefreshInterval" type="number" min="1" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" Custom interval">
          
           </div>
          
@@ -140,6 +138,8 @@ export default {
       endpointuri: [],
       newEndpointUrl: "",
       name: "",
+      refreshInterval: 10, // Default refresh interval
+      customRefreshInterval: 10 // Initial value for custom refresh interval input
     };
   },
   async mounted() {
@@ -196,9 +196,16 @@ export default {
           return '0%'; // Default width is 0%
       }
     },
-  },
+    updateRefreshInterval() {
+      if (this.customRefreshInterval >= 1) {
+        this.refreshInterval = this.customRefreshInterval; // Update refresh interval
+        setInterval(async () => {
+          await this.fetchData(); // Fetch data at the new interval
+        }, this.refreshInterval * 1000); // Convert seconds to milliseconds
+      }
+    }
+  }
 };
-
 </script>
 
 <style scoped>
