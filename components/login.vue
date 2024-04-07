@@ -78,9 +78,9 @@
                 </form>
             </div>
             <div class="flex justify-center items-center mt-6">
-                
-                    <span class="ml-2 text-red-600 text-xs">ADMIN ONLY !</span>
-               
+
+                <span class="ml-2 text-red-600 text-xs">ADMIN ONLY !</span>
+
             </div>
         </div>
     </div>
@@ -133,6 +133,7 @@ export default {
                 await signInWithEmailAndPassword(auth, this.email, this.password)
                 
                 
+                // Redirect to the dashboard page or perform any other action after successful login
                 this.$router.push('dash')
             } catch (error) {
                 console.error(error)
