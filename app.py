@@ -2,17 +2,12 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import requests
 import time
-import urllib3
-from grafanalib.core import *
+import matplotlib.pyplot as plt
+import socketio
 
-# Disable TLS warnings
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Firebase initialization
-cred = credentials.Certificate("itec2024-firebase-adminsdk-yjefv-9c193ac533.json")
+cred = credentials.Certificate("C:\\Users\\Oprea\\Downloads\\itec2024-firebase-adminsdk-yjefv-9c193ac533.json")
 firebase_admin.initialize_app(cred)
 
-# Function to get endpoint status
 def get_endpoint_status(endpoint_url):
     try:
         response = requests.get(endpoint_url, verify=False)
@@ -23,59 +18,53 @@ def get_endpoint_status(endpoint_url):
     except:
         return "Down"
 
-# Function to update endpoint status in Firestore
 def update_endpoint_status(endpoint_doc_ref, new_status):
     endpoint_doc_ref.update({"status": new_status})
 
-# Function to monitor endpoints
+sio = socketio.Server()
+
+@sio.on('connect')
+def connect(sid, environ):
+    print('Client connected')
+
+@sio.on('disconnect')
+def disconnect(sid):
+    print('Client disconnected')
+
 def monitor_endpoints():
     db = firestore.client()
     endpoints_collection = db.collection("endpointuri")
 
-    try:
-        while True:
-            for doc in endpoints_collection.stream():
-                endpoint_url = doc.to_dict().get("url")
-                if endpoint_url:
-                    # Check if there are any bugs submitted for this endpoint
-                    bugs_collection = db.collection("bugs").where("project", "==", endpoint_url).limit(1).stream()
-                    if bugs_collection:
-                        status = "Unstable"
-                    else:
-                        status = get_endpoint_status(endpoint_url)
+    while True:
+        statuses = []
+        for doc in endpoints_collection.stream():
+            endpoint_url = doc.to_dict().get("url")
+            if endpoint_url:
+                status = get_endpoint_status(endpoint_url)
+                statuses.append(status)
+                
+                endpoint_doc_ref = endpoints_collection.document(doc.id)
+                update_endpoint_status(endpoint_doc_ref, status)
+                
+                
+                # Send real-time update to client
+                sio.emit('update', {'status': status})
 
-                    endpoint_doc_ref = endpoints_collection.document(doc.id)
-                    update_endpoint_status(endpoint_doc_ref, status)
+                
 
-            time.sleep(10)  # Sleep for 10 seconds
-    except KeyboardInterrupt:
-        print("Monitoring stopped.")
-
-# Function to create Grafana dashboard
-def create_dashboard():
-    # Define dashboard properties
-    dashboard = Dashboard(
-        title="Endpoint Status Dashboard",
-        rows=[
-            Row(panels=[
-                Graph(
-                    title="Endpoint Status",
-                    dataSource="Firebase",
-                    targets=[
-                        Target(
-                            expr='firebase_endpoint_status{endpoint="YOUR_ENDPOINT"}',
-                            legendFormat="{{endpoint}}"
-                        )
-                    ]
-                )
-            ])
-        ]
-    )
-    
-    # Save the dashboard to a JSON file
-    with open("endpoint_status_dashboard.json", "w") as f:
-        f.write(dashboard.to_json(indent=2))
+        # Plot chart
+        plt.figure(figsize=(8, 6))
+        plt.hist(statuses, bins=['Stable', 'Unstable', 'Down'])
+        plt.title('Endpoint Status Distribution')
+        plt.xlabel('Status')
+        plt.ylabel('Frequency')
+        plt.savefig('endpoint_status_chart.png')
+        plt.close()
+        
+        time.sleep(10)  # Sleep for 10 seconds
 
 if __name__ == "__main__":
+    app = socketio.WSGIApp(sio)
     monitor_endpoints()
-    create_dashboard()
+
+    
