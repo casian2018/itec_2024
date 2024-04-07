@@ -14,7 +14,7 @@
         </div>
         <div class="block">
           <div class="inline relative">
-            <div class="flex items-center relative cursor-pointer whitespace-nowrap">About</div>
+            <div class="flex items-center relative cursor-pointer whitespace-nowrap">Contact</div>
           </div>
         </div>
       </div>
@@ -30,12 +30,13 @@
     </center>
   </div>
 
-  <div x-data="setup()" :class="{ 'dark': isDark }">
+  <div class="fixed flex-col justify-center">
+    
     <div class="flex justify-start bg-white dark:bg-white-500 text-black dark:text-white">
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
         <!-- Social Traffic -->
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 mt-8 rounded-xl">
-        <div class="dashboard mx-4">
+        <div class="fixed flex-col justify-center min-w-0 mb-4 lg:mb-0 break-words px-16 mt-2 rounded-xl">
+        <div class="dashboard mx-4 ">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-4">
                 <p class="endpoint-url p-1">{{ endpoint.url }}</p>
@@ -53,12 +54,16 @@
               
               
               </div>
+              
          
             </main>
+          
             <main v-else>
               <p>No endpoint data available.</p>
             </main>
+         
           </div>
+       
           <div class="pt-2">
             <center>
               <NuxtLink to="reportform">
