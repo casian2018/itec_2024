@@ -38,9 +38,9 @@
         </div>
       </div>
 
-      <div class="h-full ml-14 mb-10 md:ml-64 text-black">
-        <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
-          <div class="dashboard mx-4 pb-6">
+      <div class="h-full ml-14 mb-10 md:ml-96 text-black flex justify-center items-center">
+        <div class=" flex min-w-0 mb-4 lg:mb-0  mx-12 bg-gray-200 mt-8 rounded-xl">
+          <div class="dashboard ">
             <main v-if="endpointuri && endpointuri.length">
               <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-6">
                 <div class="col-span-3">
