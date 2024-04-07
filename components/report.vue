@@ -3,7 +3,7 @@
       <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
         <!-- Header content -->
-        <div
+         <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
           <span class="hidden md:block">ADMIN PANEL</span>
         </div>
@@ -71,7 +71,7 @@
                         <td class="border px-4 py-2">{{ bug.description }}</td>
                         <td class="border px-4 py-2">{{ bug.project }}</td>
                         <td class="border px-4 py-2">
-                          <button @click="markBugResolved(endpoint.id, index)" class="bg-green-500 text-white px-2 py-1 rounded-md">Mark Resolved</button>
+                          <button @click="deleteBug(bug.id)" class="bg-green-500 text-white px-2 py-1 rounded-md">Mark Resolved</button>
                         </td>
                       </tr>
                     </tbody>
@@ -168,22 +168,14 @@
         }
       },
       async getUser() {
-  try {
-    const userData = await getDocs(collection(db, "users"));
-    if (!userData.empty) {
-      const userDoc = userData.docs[0];
-      if (userDoc.exists()) {
-        this.name = userDoc.data().Name;
-      } else {
-        console.error("User document does not exist");
-      }
-    } else {
-      console.error("No user data available");
-    }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-},
+        try {
+          const userData = await getDocs(collection(db, "users"));
+          const userDoc = userData.docs[0];
+          this.name = userDoc.data().Name;
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      },
       async markBugResolved(endpointID, bugIndex) {
         try {
           const endpointRef = doc(db, 'endpointuri', endpointID);
