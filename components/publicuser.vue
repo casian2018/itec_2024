@@ -1,17 +1,11 @@
 
-<!-- Updated template section -->
 <template>
-    <!-- component -->
-    <!-- component -->
-    
+
 <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
-    <!-- logo -->
     <div class="inline-flex">
        <img src="/public/logo.png" class="w-44">
     </div>
 
-    <!-- end logo -->
-    <!-- login -->
     <div class="flex-initial">
       <div class="flex justify-end items-center relative">
        
@@ -29,7 +23,7 @@
         </div>
       </div>
     </div>
-    <!-- end login -->
+
 </nav>
 
 
@@ -39,17 +33,14 @@
       <div
         class=" flex justify-start  bg-white dark:bg-white-500 text-black dark:text-white">
       
-     
         <div class="h-full ml-14 mb-10  md:ml-64 text-black ">
             
-            
-          <!-- Social Traffic -->
           <div class="relative flex flex-col  min-w-0 mb-4 lg:mb-0 break-words mx-12 mt-8 rounded-xl">
             
          
             <div class="dashboard mx-4  ">
               <main v-if="endpointuri && endpointuri.length" >
-                <div v-for="endpoint in endpointuri" :key="endpoint.id" class="endpoint-item grid grid-cols-3 mt-4 ">
+                <div v-for="endpoint in endpointuri" :key="endpoint.id" class="relative endpoint-item grid grid-cols-3 mt-4 ">
                   <p class="endpoint-url p-1">{{ endpoint.url }}</p>
                   <p class="endpoint-status pl-12">
                     Status: {{ endpoint.status }}
@@ -68,11 +59,7 @@
             </div>
 
             <div class="pt-2"><center><NuxtLink to="reportform"><button class="border-2 border-red-600 rounded-md bg-red-600 px-4 py-1  text-lg">REPORT</button></NuxtLink></center></div>
-            <!-- Add input field for adding new links -->
-           
-              
-       
-            
+                  
           </div>
         </div>
       </div>
@@ -96,7 +83,7 @@
   };
   
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app); // Initialize Firestore
+  const db = getFirestore(app); 
   const states = {
     STABLE: "Stable",
     UNSTABLE: "Unstable",
@@ -112,9 +99,8 @@
       };
     },
     async mounted() {
-      await this.fetchData(); // Fetch initial data // Fetch user data
+      await this.fetchData(); 
   
-      // Refresh data every 10 seconds
       setInterval(async () => {
         await this.fetchData();
       }, 10000);
@@ -140,8 +126,8 @@
           const url = this.newEndpointUrl.trim();
           if (url) {
             await addDoc(collection(db, "endpointuri"), { url, status: "" });
-            await this.fetchData(); // Fetch updated data
-            this.newEndpointUrl = ""; // Clear input field
+            await this.fetchData(); 
+            this.newEndpointUrl = ""; 
           }
         } catch (error) {
           console.error("Error adding new endpoint:", error);
@@ -151,13 +137,13 @@
       getStatusWidth(status) {
         switch (status) {
           case states.STABLE:
-            return '100%'; // If status is stable, width is 100%
+            return '100%'; 
           case states.UNSTABLE:
-            return '50%'; // If status is unstable, width is 50%
+            return '50%'; 
           case states.DOWN:
-            return '30%'; // If status is down, width is 30%
+            return '30%'; 
           default:
-            return '0%'; // Default width is 0%
+            return '0%'; 
         }
       },
     },
@@ -205,11 +191,7 @@
 
 
 
-.font-lilita-one-regular {
-    font-family: "Lilita One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
+
 
 </style>
 

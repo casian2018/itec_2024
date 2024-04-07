@@ -1,8 +1,6 @@
 <template>
     <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
-      <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
-        <!-- Header content -->
          <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
           <span class="hidden md:block">ADMIN PANEL</span>
@@ -11,9 +9,6 @@
           <ul class="flex items-center"></ul>
         </div>
       </div>
-      <!-- ./Header -->
-  
-      <!-- Sidebar -->
       <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
           <ul class="flex flex-col py-4 space-y-1">
@@ -39,13 +34,10 @@
                 <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span>
               </NuxtLink>
             </li>
-          
-            <!-- Other sidebar items -->
           </ul>
         </div>
       </div>
-      <!-- Sidebar content -->
-  
+
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
         <!-- Endpoint and Bug List -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
@@ -210,6 +202,5 @@
   </script>
   
   <style scoped>
-  /* Styles here */
   </style>
   

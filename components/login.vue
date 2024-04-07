@@ -1,6 +1,4 @@
 <template>
-
-    <!-- component -->
     <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
 
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
@@ -93,12 +91,10 @@
 
 
 <script type="module">
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyDTXWIiULSBECNDYj8D6U3pio0TTjyNuCc",
     authDomain: "itec2024.firebaseapp.com",
@@ -112,17 +108,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-// Initialize Firebase
 
-
-// Import Firebase Authentication
 import {
     getAuth,
     signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 
 import { signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-// Get a reference to the Firebase Authentication service
+
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
@@ -140,10 +133,8 @@ export default {
                 await signInWithEmailAndPassword(auth, this.email, this.password)
                 
                 
-                // Redirect to the dashboard page or perform any other action after successful login
                 this.$router.push('dash')
             } catch (error) {
-                // Handle the error
                 console.error(error)
             }
         },
@@ -161,9 +152,6 @@ export default {
         }
     }
 }
-
-
-
 
 
 

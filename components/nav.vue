@@ -1,12 +1,8 @@
 <template>
 <nav class="fixed bg-white w-full flex justify-between items-center mx-auto px-8 h-20 ">
-    <!-- logo -->
     <div class="inline-flex">
        <a href="/"><img src="/public/logo.png" class="w-44"></a>
     </div>
-
-    <!-- end logo -->
-    <!-- login -->
     <div class="flex-initial">
       <div class="flex justify-end items-center relative">
        
@@ -24,6 +20,5 @@
         </div>
       </div>
     </div>
-    <!-- end login -->
 </nav>
 </template>

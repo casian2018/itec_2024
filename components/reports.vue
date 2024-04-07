@@ -2,7 +2,6 @@
   <div x-data="setup()" :class="{ 'dark': isDark }">
     <div
       class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
-      <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
         <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900 border-none">
@@ -12,8 +11,6 @@
           <ul class="flex items-center"></ul>
         </div>
       </div>
-      <!-- ./Header -->
-      <!-- Sidebar -->
       <div
         class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -56,9 +53,7 @@
           </ul>
         </div>
       </div>
-      <!-- ./Sidebar -->
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
-        <!-- Social Traffic -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
           <div class="rounded-t mb-0 px-0 border-0 ">
             <div class="flex flex-wrap items-center px-4 py-2 "></div>
@@ -91,7 +86,6 @@
             class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 ml-12 rounded mb-4 w-36 mt-8">
             Add New Link
           </button>
-          <!-- Add input field for adding new links -->
           <input v-model="newEndpointUrl" type="text"
             class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4">
         </div>
@@ -115,7 +109,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Initialize Firestore
+const db = getFirestore(app); 
 const states = {
   STABLE: "Stable",
   UNSTABLE: "Unstable",
@@ -131,8 +125,8 @@ export default {
     };
   },
   async mounted() {
-    await this.fetchData(); // Fetch initial data
-    await this.getUser(); // Fetch user data
+    await this.fetchData(); 
+    await this.getUser(); 
 
     // Refresh data every 10 seconds
     setInterval(async () => {
@@ -161,8 +155,8 @@ export default {
         const url = this.newEndpointUrl.trim();
         if (url) {
           await addDoc(collection(db, "endpointuri"), { url, status: "" });
-          await this.fetchData(); // Fetch updated data
-          this.newEndpointUrl = ""; // Clear input field
+          await this.fetchData(); 
+          this.newEndpointUrl = ""; 
         }
       } catch (error) {
         console.error("Error adding new endpoint:", error);
@@ -173,7 +167,7 @@ export default {
         const userData = await getDocs(collection(db, "users"));
         if (userData.docs.length > 0) {
           const userDoc = userData.docs[0];
-          if (userDoc.exists) { // Check if userDoc exists
+          if (userDoc.exists) { 
             this.name = userDoc.data().Name;
           } else {
             console.error("User document does not exist.");
@@ -187,18 +181,18 @@ export default {
     },
     async resolveBug(endpoint) {
       try {
-        // Update the status of the bug to "Resolved"
+
         await updateDoc(doc(db, 'endpointuri', endpoint.id), { status: 'Resolved' });
-        await this.fetchData(); // Fetch updated data
+        await this.fetchData(); 
       } catch (error) {
         console.error("Error resolving bug:", error);
       }
     },
     async deleteBug(endpoint) {
       try {
-        // Delete the bug from Firestore
+      
         await deleteDoc(doc(db, 'endpointuri', endpoint.id));
-        await this.fetchData(); // Fetch updated data
+        await this.fetchData(); 
       } catch (error) {
         console.error("Error deleting bug:", error);
       }
@@ -206,13 +200,13 @@ export default {
     getStatusWidth(status) {
       switch (status) {
         case states.STABLE:
-          return '100%'; // If status is stable, width is 100%
+          return '100%'; 
         case states.UNSTABLE:
-          return '50%'; // If status is unstable, width is 50%
+          return '50%'; 
         case states.DOWN:
-          return '30%'; // If status is down, width is 30%
+          return '30%'; 
         default:
-          return '0%'; // Default width is 0%
+          return '0%'; 
       }
     },
   },

@@ -1,10 +1,8 @@
-<!-- Updated template section -->
+
 <template>
-  <!-- component -->
   <div x-data="setup()" :class="{ 'dark': isDark }">
     <div
       class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-white-500 text-black dark:text-white">
-      <!-- Header -->
       <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
         <div
           class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 dark:bg-blue-900  border-none">
@@ -14,9 +12,6 @@
           <ul class="flex items-center"></ul>
         </div>
       </div>
-      <!-- ./Header -->
-      <!-- Sidebar -->
-      <!-- Sidebar -->
       <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64  bg-blue-600 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
           <ul class="flex flex-col py-4 space-y-1">
@@ -42,14 +37,10 @@
                 <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">New</span>
               </NuxtLink>
             </li>
-          
-            <!-- Other sidebar items -->
           </ul>
         </div>
       </div>
-      <!-- ./Sidebar -->
       <div class="h-full ml-14 mb-10 md:ml-64 text-black">
-        <!-- Social Traffic -->
         <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-8 rounded-xl">
           <div class="rounded-t mb-0 px-0 border-0 ">
             <div class="flex flex-wrap items-center px-4 py-2 "></div>
@@ -62,19 +53,14 @@
                   Status: {{ endpoint.status }}
                   <span class="ml-2 text-xs font-medium rounded-full px-1"></span>
                 </p>
-               
                   <div class="bg-blue-500 text-xs font-medium  ml-16  p-1  mb-2 mt-4 leading-none rounded"
-                    :style="{ width: getStatusWidth(endpoint.status) }">
-                    
+                    :style="{ width: getStatusWidth(endpoint.status) }">    
                   </div>
                   <div class="rounded ">
                   <button @click="removeEndpoint(endpoint.id)" class="bg-red-500 hover:bg-red-600 text-white font-medium rounded ml-52 mt-2 w-4 h-4 text-xs">
                   X
-                </button>
-                  
-                </div>
-                
-                
+                </button>    
+                </div>             
               </div>
             </main>
             <main v-else>
@@ -86,25 +72,15 @@
           <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
               Add New Link
             </button>
-          <!-- Add input field for adding new links -->
           <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" www.web.com">
           </div>
           <div>
           <button @click="addNewEndpoint" class=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2  ml-12 rounded  mb-4 w-48 mt-8 ">
               Refresh every "x" seconds
             </button>
-          <!-- Add input field for adding new links -->
           <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" x">
-         
-          </div>
-         
-
-         
-        </div>
-            
-            
-     
-          
+          </div>   
+        </div> 
         </div>
       </div>
     </div>
@@ -126,7 +102,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Initialize Firestore
+const db = getFirestore(app); 
 
 const states = {
   STABLE: "Stable",
@@ -143,9 +119,9 @@ export default {
     };
   },
   async mounted() {
-    await this.fetchData(); // Fetch initial data
+    await this.fetchData(); 
     setInterval(async () => {
-      await this.fetchData(); // Fetch data every 10 seconds
+      await this.fetchData(); 
     }, 10000);
   },
   methods: {
@@ -169,8 +145,8 @@ export default {
         const url = this.newEndpointUrl.trim();
         if (url) {
           await addDoc(collection(db, "endpointuri"), { url, status: "" });
-          await this.fetchData(); // Fetch updated data
-          this.newEndpointUrl = ""; // Clear input field
+          await this.fetchData(); 
+          this.newEndpointUrl = ""; 
         }
       } catch (error) {
         console.error("Error adding new endpoint:", error);
@@ -187,13 +163,13 @@ export default {
     getStatusWidth(status) {
       switch (status) {
         case states.STABLE:
-          return '100%'; // If status is stable, width is 100%
+          return '100%'; 
         case states.UNSTABLE:
-          return '50%'; // If status is unstable, width is 50%
+          return '50%'; 
         case states.DOWN:
-          return '30%'; // If status is down, width is 30%
+          return '30%'; 
         default:
-          return '0%'; // Default width is 0%
+          return '0%'; 
       }
     },
   },

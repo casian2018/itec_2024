@@ -1,6 +1,5 @@
 <template>
 
-    <!-- component -->
 <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
 
 <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
@@ -18,10 +17,7 @@
 
             <span>E-mail sent</span>
           </div>
-        </div>
-        
-
-        
+        </div> 
 
         <div class="flex w-full">
           <button type="submit" class="flex  focus:outline-none text-white text-sm sm:text-base bg-gray-500 hover:bg-gray-600 rounded py-2 w-15 transition duration-150 ease-in">
@@ -53,7 +49,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Initialize Firestore
+const db = getFirestore(app); 
 
 export default {
   data() {
@@ -81,9 +77,6 @@ export default {
 };
 </script>
 
-<style>
-/* Stiluri Tailwind CSS pot fi adăugate aici, dacă este necesar */
-</style>
 
 
 

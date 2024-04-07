@@ -1,12 +1,9 @@
 <template>
     <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
-    <!-- logo -->
     <div class="inline-flex">
        <img src="/public/logo.png" class="w-44">
     </div>
 
-    <!-- end logo -->
-    <!-- login -->
     <div class="flex-initial">
       <div class="flex justify-end items-center relative">
        
@@ -24,7 +21,7 @@
         </div>
       </div>
     </div>
-    <!-- end login -->
+
 </nav>
 
 
@@ -32,7 +29,7 @@
  
  
       <div class="h-full ml-14 mb-10 md:ml-64 text-black pt-14 pl-24 pr-72 mr-20 ">
-        <!-- Endpoint and Bug List -->
+
         <div class=" flex-col min-w-0 mb-4 lg:mb-0 break-words mx-12 bg-gray-200 mt-4 ">
         
           <div class="dashboard mx-4">
@@ -43,7 +40,7 @@
               <p>No endpoint data available.</p>
             </main>
           </div>
-          <!-- Add input field for adding new bugs -->
+
           <div class="flex flex-col mt-4 py-6 px-4">
             <label for="project" class="text-sm font-medium text-gray-900 ">Select Website:</label>
             <select v-model="selectedProject" id="project" name="project" class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm p-0.5">
@@ -60,18 +57,10 @@
         </div>
         <div class="pt-4 ml-20 text-gray-500 hover:text-gray-700"><NuxtLink to="publicuser"><span>Return</span></NuxtLink></div>
       </div>
-      <!-- Bug Table -->
+
       <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
         
-      <!-- ./Sidebar -->
-     
-    
 
-    
-      <!-- Header -->
-    
-      <!-- ./Header -->
-      
       </div>
    
     
@@ -92,7 +81,7 @@
   };
   
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app); // Initialize Firestore
+  const db = getFirestore(app); 
   const states = {
     STABLE: "Stable",
     UNSTABLE: "Unstable",
@@ -106,16 +95,16 @@
         newBugTitle: "",
         newBugDescription: "",
         name: "",
-        projects: [], // Array to store project URLs
-        selectedProject: "", // Variable to store the selected project URL
-        bugs: [], // Array to store bugs
+        projects: [], 
+        selectedProject: "", 
+        bugs: [], 
       };
     },
     async mounted() {
-      await this.fetchData(); // Fetch initial data
-      await this.getUser(); // Fetch user data
+      await this.fetchData(); 
+      await this.getUser(); 
   
-      // Refresh data every 10 seconds
+     
       setInterval(async () => {
         await this.fetchData();
       }, 10000);
@@ -125,18 +114,18 @@
         try {
           const endpointsSnapshot = await getDocs(collection(db, "endpointuri"));
           const updatedEndpoints = [];
-          const projectURLs = []; // Temporary array to store project URLs
+          const projectURLs = []; 
           endpointsSnapshot.forEach((doc) => {
             updatedEndpoints.push({
               id: doc.id,
               ...doc.data(),
             });
-            projectURLs.push(doc.data().url); // Push project URL to temporary array
+            projectURLs.push(doc.data().url); 
           });
           this.endpointuri = updatedEndpoints;
-          this.projects = projectURLs; // Assign project URLs to the data property
+          this.projects = projectURLs; 
   
-          // Fetch bugs
+        
           const bugsSnapshot = await getDocs(collection(db, "bugs"));
           const bugs = [];
           bugsSnapshot.forEach((doc) => {
@@ -145,7 +134,7 @@
               ...doc.data(),
             });
           });
-          this.bugs = bugs; // Assign bugs to the data property
+          this.bugs = bugs; 
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -155,10 +144,8 @@
           const title = this.newBugTitle.trim();
           const description = this.newBugDescription.trim();
           if (title && description && this.selectedProject) {
-            // Add the new bug to Firestore
-            await addDoc(collection(db, "bugs"), { title, description, project: this.selectedProject });
-  
-            // Clear input fields
+           
+            await addDoc(collection(db, "bugs"), { title, description, project: this.selectedProject }); 
             this.newBugTitle = "";
             this.newBugDescription = "";
           }
@@ -178,13 +165,13 @@
       getStatusWidth(status) {
         switch (status) {
           case states.STABLE:
-            return '100%'; // If status is stable, width is 100%
+            return '100%'; 
           case states.UNSTABLE:
-            return '50%'; // If status is unstable, width is 50%
+            return '50%'; 
           case states.DOWN:
-            return '30%'; // If status is down, width is 30%
+            return '30%'; 
           default:
-            return '0%'; // Default width is 0%
+            return '0%'; 
         }
       },
       filteredBugs(endpointURL) {
@@ -198,15 +185,7 @@
   };
   </script>
   
-  <style scoped>
-  /* Styles here */
-  </style>
 
-
-<!-- Updated template section -->
-
-  <!-- component -->
- 
 
 
 
