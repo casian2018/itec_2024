@@ -95,6 +95,7 @@
             </button>
           <!-- Add input field for adding new links -->
           <input v-model="newEndpointUrl" type="text" class="form-input rounded-md shadow-sm border-gray-300 block w-48 h-8 ml-12 mb-4" placeholder=" x">
+         
           </div>
          
 
